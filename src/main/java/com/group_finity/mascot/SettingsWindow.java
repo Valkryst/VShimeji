@@ -6,6 +6,7 @@
 package com.group_finity.mascot;
 
 import com.group_finity.mascot.image.ImageScaler;
+import lombok.extern.java.Log;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
