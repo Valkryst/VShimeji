@@ -753,7 +753,7 @@ public class SettingsWindow extends JDialog {
         lblDevelopedBy.setAlignmentX(0.5F);
         pnlAbout.add(lblDevelopedBy);
 
-        lblKilkakon.setText("Kilkakon");
+        lblKilkakon.setText("Group Finity and with modifications by DalekCraft2, Kilkakon, and Valkryst");
         lblKilkakon.setAlignmentX(0.5F);
         pnlAbout.add(lblKilkakon);
         pnlAbout.add(rigid4);
