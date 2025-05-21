@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Valkryst
  */
 public enum ImageScaler {
-    NEAREST_NEIGHBOUR,
+    NEAREST,
     BILINEAR,
     BICUBIC,
     HQX;
@@ -48,7 +48,7 @@ public enum ImageScaler {
         this.setRenderingHints(graphics2D);
 
         switch (this) {
-            case NEAREST_NEIGHBOUR: {
+            case NEAREST: {
                 graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
                 break;
             }

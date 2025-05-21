@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
@@ -73,7 +74,7 @@ public class AnimationBuilder {
         final double opacity = Double.parseDouble(Main.getInstance().getProperties().getProperty("Opacity", "1.0"));
         final double scaling = Double.parseDouble(Main.getInstance().getProperties().getProperty("Scaling", "1.0"));
 
-        final ImageScaler imageScaler = ImageScaler.valueOf(Main.getInstance().getProperties().getProperty("Filter", ImageScaler.NEAREST_NEIGHBOUR.name()));
+        final ImageScaler imageScaler = ImageScaler.valueOf(Main.getInstance().getProperties().getProperty("Filter", ImageScaler.NEAREST.name()).toUpperCase(Locale.ROOT));
 
         if (imageText != null) {
             try {
