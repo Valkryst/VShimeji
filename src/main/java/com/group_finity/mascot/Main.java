@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -40,6 +41,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 
@@ -396,8 +398,19 @@ public class Main {
 
             // attach menu
             icon.addMouseListener(new MouseListener() {
+                final AtomicBoolean debouncing = new AtomicBoolean(false);
+                final Timer debounceTimer = new Timer(1000, event -> debouncing.set(false));
+
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    if (debouncing.get()) {
+                        return;
+                    }
+
+                    debouncing.set(true);
+                    debounceTimer.setRepeats(false);
+                    debounceTimer.restart();
+
                     if (SwingUtilities.isLeftMouseButton(e) && !e.isPopupTrigger()) {
                         // Create a mascot when the icon is left-clicked
                         createMascot();

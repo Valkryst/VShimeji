@@ -5,6 +5,7 @@ import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
 import com.sun.jna.platform.WindowUtils;
 import lombok.Getter;
+import org.apache.commons.exec.OS;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +16,6 @@ import java.awt.*;
  */
 @Getter
 class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
-
     private static final long serialVersionUID = 1L;
 
     /**
@@ -27,7 +27,6 @@ class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
 
     public GenericTranslucentWindow() {
         super(WindowUtils.getAlphaCompatibleGraphicsConfiguration());
-        init();
 
         JPanel panel = new JPanel() {
             private static final long serialVersionUID = 1L;
@@ -55,17 +54,18 @@ class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
         }
     }
 
-    private void init() {
-        System.setProperty("sun.java2d.noddraw", "true");
-        System.setProperty("sun.java2d.opengl", "true");
-    }
-
     @Override
     public void setVisible(final boolean b) {
-        super.setVisible(b);
-        if (b) {
+        if (super.isVisible() == b) {
+            return;
+        }
+
+        if (b && OS.isFamilyMac()) {
+            // See https://developer.apple.com/library/archive/technotes/tn2007/tn2196.html#APPLE_AWT_DRAGGABLEWINDOWBACKGROUND
             WindowUtils.setWindowTransparent(this, true);
         }
+
+        super.setVisible(b);
     }
 
     @Override
@@ -99,7 +99,17 @@ class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
 
     @Override
     public void updateImage() {
-        WindowUtils.setWindowMask(this, getImage().getIcon());
+        /*
+         * We set the Window mask to ensure that the Shimeji can only be interacted with when the mouse is over a
+         * non-transparent pixel of the image. A drawback to this is that the call can sometimes take a long time to
+         * complete.
+         *
+         * This doesn't work on macOS, so we can skip it to avoid the performance hit.
+         */
+        if (!OS.isFamilyMac()) {
+            WindowUtils.setWindowMask(this, getImage().getIcon());
+        }
+
         validate();
         repaint();
     }
