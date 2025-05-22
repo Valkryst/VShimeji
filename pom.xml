@@ -10,7 +10,6 @@
     <packaging>jar</packaging>
 
     <name>Shimeji-ee</name>
-    <description/>
     <url>https://github.com/DalekCraft2/Shimeji-Desktop</url>
     <inceptionYear>2009</inceptionYear>
     <licenses>
@@ -26,18 +25,10 @@
         </license>
     </licenses>
 
-    <scm/>
-    <issueManagement/>
-    <ciManagement/>
-    <distributionManagement/>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <mainClass>com.group_finity.mascot.Main</mainClass>
-
-        <libPrefix>lib</libPrefix>
-        <libDirectory>${project.build.directory}/${libPrefix}</libDirectory>
+        <mainClass>${groupId}.${artifactId}.Main</mainClass>
 
         <lombokVersion>1.18.38</lombokVersion>
     </properties>
@@ -113,22 +104,7 @@
     <build>
         <defaultGoal>clean verify</defaultGoal>
         <finalName>${project.name}</finalName>
-        <!-- <resources>
-            <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>LICENSE.txt</include>
-                </includes>
-            </resource>
-        </resources> -->
+
         <plugins>
             <plugin>
                 <!-- Compile -->
@@ -144,52 +120,6 @@
                         </annotationProcessorPath>
                     </annotationProcessorPaths>
                     <release>${maven.compiler.release}</release>
-                </configuration>
-            </plugin>
-            <!-- <plugin>
-                &lt;!&ndash; Attach sources &ndash;&gt;
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                &lt;!&ndash; Attach Javadocs &ndash;&gt;
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.11.2</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin> -->
-            <plugin>
-                <!-- Set main class -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.4.2</version>
-                <configuration>
-                    <skipMainArtifact>true</skipMainArtifact>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <classpathPrefix>${libPrefix}/</classpathPrefix>
-                            <mainClass>${mainClass}</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
             </plugin>
 
@@ -220,22 +150,8 @@
                 </executions>
             </plugin>
 
+            <!-- Create an .exe file to run the application -->
             <plugin>
-                <!-- Parse version components and create properties for them -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <id>parse-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Create an .exe file to run the application -->
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
                 <version>2.6.0</version>
@@ -252,7 +168,6 @@
                             <jar>${project.build.finalName}.jar</jar>
                             <dontWrapJar>true</dontWrapJar>
                             <downloadUrl>https://www.oracle.com/java/technologies/downloads/</downloadUrl>
-                            <!-- <supportUrl>${project.ciManagement.url}</supportUrl> -->
                             <chdir>.</chdir>
                             <icon>${project.basedir}/img/icon.ico</icon>
                             <classPath>
@@ -264,7 +179,7 @@
                             </singleInstance>
                             <jre>
                                 <path>%JAVA_HOME%;%PATH%</path>
-                                <requiresJdk>true</requiresJdk>
+                                <requiresJdk>false</requiresJdk>
                                 <minVersion>${maven.compiler.release}</minVersion>
                                 <maxVersion/>
                             </jre>
@@ -280,8 +195,9 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Generate the ZIP files from the old Ant build.xml script -->
             <plugin>
-                <!-- Generate the ZIP files from the old Ant build.xml script -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
