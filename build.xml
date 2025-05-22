@@ -35,8 +35,6 @@
             <fileset dir="target">
                 <include name="Shimeji-ee.jar"/>
                 <include name="Shimeji-ee.exe"/>
-                <include name="src.zip"/>
-                <include name="lib/*"/>
             </fileset>
             <mappedresources>
                 <fileset dir="conf">
@@ -49,11 +47,11 @@
                 <include name="originalreadme.txt"/>
                 <include name="readme.txt"/>
                 <include name="changelog.txt"/>
-                <include name="kilkakon.txt"/>
                 <include name="img/**/*"/>
                 <include name="conf/**/*"/>
                 <exclude name="conf/behaviors.xml"/>
                 <exclude name="conf/*Behavior.xml"/>
+                <exclude name="conf/settings.properties"/>
             </fileset>
         </zip>
     </target>
