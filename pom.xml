@@ -28,7 +28,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <mainClass>${groupId}.${artifactId}.Main</mainClass>
+        <mainClass>${groupId}.${project.artifactId}.Main</mainClass>
 
         <lombokVersion>1.18.38</lombokVersion>
     </properties>
