@@ -104,6 +104,9 @@ public class Main {
     }
 
     public static void main(final String[] args) {
+        Main.updateLookAndFeel();
+        OsThemeDetector.getDetector().registerListener(ignored -> updateLookAndFeel());
+
         try {
             getInstance().run();
         } catch (OutOfMemoryError err) {
@@ -142,10 +145,6 @@ public class Main {
             showError("The language file for locale " + locale.toLanguageTag() + " could not be loaded. Ensure that you have the latest Shimeji language.properties in your conf directory.");
             exit();
         }
-
-        // load theme
-        this.updateLookAndFeel();
-        OsThemeDetector.getDetector().registerListener(ignored -> updateLookAndFeel());
 
         // Get the image sets to use
         if (!Boolean.parseBoolean(properties.getProperty("AlwaysShowShimejiChooser", "false"))) {
@@ -1252,7 +1251,7 @@ public class Main {
     }
 
     /** Updates the {@link LookAndFeel} of the application based on the current OS and whether it's using dark/light mode. */
-    private void updateLookAndFeel() {
+    private static void updateLookAndFeel() {
         SwingUtilities.invokeLater(() -> {
             final boolean isDark = OsThemeDetector.isSupported() && OsThemeDetector.getDetector().isDark();
 
