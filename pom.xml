@@ -93,6 +93,13 @@
             <version>2025.5.15</version>
         </dependency>
 
+        <!-- UI Components -->
+        <dependency>
+            <groupId>com.github.Valkryst</groupId>
+            <artifactId>JIconLabel</artifactId>
+            <version>2025.5.23-hotfix2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

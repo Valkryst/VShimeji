@@ -12,6 +12,7 @@ module com.group_finity.mascot {
     requires com.formdev.flatlaf;
     requires com.valkryst.VMVC;
     requires static lombok;
+    requires JIconLabel;
 
     exports com.group_finity.mascot;
     exports com.group_finity.mascot.action;

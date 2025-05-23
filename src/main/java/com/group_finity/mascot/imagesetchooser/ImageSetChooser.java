@@ -3,6 +3,7 @@ package com.group_finity.mascot.imagesetchooser;
 import com.group_finity.mascot.Main;
 import com.group_finity.mascot.config.Configuration;
 import com.group_finity.mascot.config.Entry;
+import com.group_finity.mascot.display.model.ImageSetCellModel;
 import com.group_finity.mascot.exception.ConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -43,8 +44,8 @@ public class ImageSetChooser extends JDialog {
 
         List<String> activeImageSets = readConfigFile();
 
-        List<ImageSetChooserPanel> data1 = new ArrayList<>();
-        List<ImageSetChooserPanel> data2 = new ArrayList<>();
+        List<ImageSetCellModel> data1 = new ArrayList<>();
+        List<ImageSetCellModel> data2 = new ArrayList<>();
         Collection<Integer> si1 = new ArrayList<>();
         Collection<Integer> si2 = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class ImageSetChooser extends JDialog {
         File dir = Main.IMAGE_DIRECTORY.toFile();
         String[] children = dir.list(fileFilter);
 
-        // Create ImageSetChooserPanels for ShimejiList
+        // Create ImageSetCellViews for ShimejiList
         boolean onList1 = true;    // Toggle adding between the two lists
         int row = 0;    // Current row
         if (children != null) {
@@ -189,16 +190,30 @@ public class ImageSetChooser extends JDialog {
 
                 if (onList1) {
                     onList1 = false;
-                    data1.add(new ImageSetChooserPanel(imageSet, actionsFile.toString(),
-                            behaviorsFile.toString(), imageFile, caption));
+                    data1.add(
+                        new ImageSetCellModel(
+                            imageSet,
+                            actionsFile,
+                            behaviorsFile,
+                            caption,
+                            imageFile
+                        )
+                    );
                     // Is this set initially selected?
                     if (activeImageSets.contains(imageSet) || selectAllSets) {
                         si1.add(row);
                     }
                 } else {
                     onList1 = true;
-                    data2.add(new ImageSetChooserPanel(imageSet, actionsFile.toString(),
-                            behaviorsFile.toString(), imageFile, caption));
+                    data2.add(
+                        new ImageSetCellModel(
+                            imageSet,
+                            actionsFile,
+                            behaviorsFile,
+                            caption,
+                            imageFile
+                        )
+                    );
                     // Is this set initially selected?
                     if (activeImageSets.contains(imageSet) || selectAllSets) {
                         si2.add(row);
@@ -210,11 +225,11 @@ public class ImageSetChooser extends JDialog {
         }
 
         setUpList1();
-        jList1.setListData(data1.toArray(new ImageSetChooserPanel[0]));
+        jList1.setListData(data1.toArray(new ImageSetCellModel[0]));
         jList1.setSelectedIndices(convertIntegers(si1));
 
         setUpList2();
-        jList2.setListData(data2.toArray(new ImageSetChooserPanel[0]));
+        jList2.setListData(data2.toArray(new ImageSetCellModel[0]));
         jList2.setSelectedIndices(convertIntegers(si2));
     }
 
@@ -387,15 +402,15 @@ public class ImageSetChooser extends JDialog {
     private void useSelectedButtonActionPerformed(ActionEvent evt) {
         imageSets.clear();
 
-        for (ImageSetChooserPanel obj : jList1.getSelectedValuesList()) {
+        for (final var obj : jList1.getSelectedValuesList()) {
             if (obj != null) {
-                imageSets.add(obj.getImageSetName());
+                imageSets.add(obj.getImageSet());
             }
         }
 
-        for (ImageSetChooserPanel obj : jList2.getSelectedValuesList()) {
+        for (final var obj : jList2.getSelectedValuesList()) {
             if (obj != null) {
-                imageSets.add(obj.getImageSetName());
+                imageSets.add(obj.getImageSet());
             }
         }
 
@@ -496,8 +511,8 @@ public class ImageSetChooser extends JDialog {
     private JButton cancelButton;
     private JLabel clearAllLabel;
     private JLabel jLabel1;
-    private JList<ImageSetChooserPanel> jList1;
-    private JList<ImageSetChooserPanel> jList2;
+    private JList<ImageSetCellModel> jList1;
+    private JList<ImageSetCellModel> jList2;
     private JPanel jPanel1;
     private JPanel jPanel2;
     private JPanel jPanel4;
