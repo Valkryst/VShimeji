@@ -15,7 +15,7 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
      *
      * <p>This dictates the view's height as the image is the largest element.</p>
      */
-    private static final Dimension PREFERRED_IMAGE_SIZE = new Dimension(64, 64);
+    private static final Dimension PREFERRED_IMAGE_SIZE = new Dimension(128, 128);
 
     /** {@link JLabel} to visually indicate whether this cell is selected. */
     private final JLabel selectionIndicationLabel = new JLabel();
