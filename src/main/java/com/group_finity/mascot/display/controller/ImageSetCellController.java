@@ -69,4 +69,9 @@ public class ImageSetCellController extends Controller<ImageSetCellModel> {
     public Optional<BufferedImage> getImage() {
         return super.model.getImage();
     }
+
+    /** Toggles the selection state of this cell. */
+    public void toggleSelectionState() {
+        super.model.setSelected(!super.model.isSelected());
+    }
 }

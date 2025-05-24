@@ -37,11 +37,13 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
         this.add(this.createImagePanel(), BorderLayout.WEST);
         this.add(this.createInformationPanel(), BorderLayout.CENTER);
         this.add(this.createSelectionIndicationPanel(), BorderLayout.EAST);
+
+        this.addMouseListener(this);
     }
 
     @Override
     public void mouseClicked(final MouseEvent e) {
-        this.setSelected(!this.isSelected());
+        super.controller.toggleSelectionState();
     }
 
     @Override
@@ -100,15 +102,6 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
 
         panel.add(selectionIndicationLabel, BorderLayout.CENTER);
         return panel;
-    }
-
-    /**
-     * Determines whether this cell is selected.
-     *
-     * @return Whether this cell is selected.
-     */
-    public boolean isSelected() {
-        return selectionIndicationLabel.getIcon() == null;
     }
 
     /**
