@@ -54,22 +54,22 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
     public void mouseReleased(final MouseEvent e) {}
 
     @Override
-    public void mouseEntered(final MouseEvent e) {}
+    public void mouseEntered(final MouseEvent e) {
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.setBackground(UIManager.getColor("List.selectionBackground"));
+    }
 
     @Override
-    public void mouseExited(final MouseEvent e) {}
+    public void mouseExited(final MouseEvent e) {
+        this.setCursor(Cursor.getDefaultCursor());
+        this.setBackground(UIManager.getColor("Panel.background"));
+    }
 
     @Override
     public void mouseDragged(final MouseEvent e) {}
 
     @Override
-    public void mouseMoved(final MouseEvent e) {
-        if (this.contains(e.getPoint())) {
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        } else {
-            this.setCursor(Cursor.getDefaultCursor());
-        }
-    }
+    public void mouseMoved(final MouseEvent e) {}
 
     public JPanel createImagePanel() {
         final var optImage = controller.getImage();
