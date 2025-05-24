@@ -1,20 +1,24 @@
 package com.group_finity.mascot.display.view;
 
 import com.group_finity.mascot.display.controller.ImageSetCellController;
-import com.valkryst.JIconLabel.JIconLabel;
+import com.valkryst.JImagePanel.JImagePanel;
 import com.valkryst.VMVC.view.View;
-import org.netbeans.lib.awtextra.AbsoluteConstraints;
-import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-public class ImageSetCellView extends View<ImageSetCellController> {
-    /** The preferred size of this view. */
-    private static final Dimension PREFERRED_SIZE = new Dimension(248, 80);
+public class ImageSetCellView extends View<ImageSetCellController> implements MouseInputListener {
+    /**
+     * <p>Preferred size of the displayed image.</p>
+     *
+     * <p>This dictates the view's height as the image is the largest element.</p>
+     */
+    private static final Dimension PREFERRED_IMAGE_SIZE = new Dimension(64, 64);
 
-    /** Checkbox for keeping track of the selected state of this view. */
-    private final JCheckBox checkBox = new JCheckBox();
+    /** {@link JLabel} to visually indicate whether this cell is selected. */
+    private final JLabel selectionIndicationLabel = new JLabel();
 
     /**
      * Constructs a new {@link ImageSetCellView}.
@@ -24,32 +28,94 @@ public class ImageSetCellView extends View<ImageSetCellController> {
     public ImageSetCellView(final ImageSetCellController controller) {
         super(controller);
 
+        selectionIndicationLabel.setFont(super.getFont().deriveFont(32f));
+
         this.setBorder(BorderFactory.createEtchedBorder());
-        this.setLayout(new AbsoluteLayout());
-        this.setPreferredSize(PREFERRED_SIZE);
+        this.setLayout(new BorderLayout());
 
-        this.add(checkBox, new AbsoluteConstraints(10, 30, -1, -1));
-        this.add(new JLabel(controller.getCaption()), new AbsoluteConstraints(110, 10, -1, -1));
-        this.add(new JLabel(controller.getActionsFilePath()), new AbsoluteConstraints(110, 30, -1, -1));
-        this.add(new JLabel(controller.getBehavioursFilePath()), new AbsoluteConstraints(110, 50, -1, -1));
+        this.add(this.createImagePanel(), BorderLayout.WEST);
+        this.add(this.createInformationPanel(), BorderLayout.CENTER);
+        this.add(this.createSelectionIndicationPanel(), BorderLayout.EAST);
+    }
 
-        final var image = controller.getImage();
-        final JLabel imageLabel;
-        if (image.isPresent()) {
-            imageLabel = new JIconLabel(new ImageIcon(image.get()));
+    @Override
+    public void mouseClicked(final MouseEvent e) {
+        this.setSelected(!this.isSelected());
+    }
+
+    @Override
+    public void mousePressed(final MouseEvent e) {}
+
+    @Override
+    public void mouseReleased(final MouseEvent e) {}
+
+    @Override
+    public void mouseEntered(final MouseEvent e) {}
+
+    @Override
+    public void mouseExited(final MouseEvent e) {}
+
+    @Override
+    public void mouseDragged(final MouseEvent e) {}
+
+    @Override
+    public void mouseMoved(final MouseEvent e) {
+        if (this.contains(e.getPoint())) {
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         } else {
-            imageLabel = new JLabel();
+            this.setCursor(Cursor.getDefaultCursor());
         }
-        imageLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0)));
-        this.add(imageLabel, new AbsoluteConstraints(40, 10, 60, 60));
+    }
+
+    public JPanel createImagePanel() {
+        final var optImage = controller.getImage();
+
+        final JPanel imagePanel;
+        if (optImage.isPresent()) {
+            imagePanel = new JImagePanel(optImage.get());
+        } else {
+            imagePanel = new JPanel();
+        }
+        imagePanel.setBorder(BorderFactory.createEtchedBorder());
+        imagePanel.setPreferredSize(PREFERRED_IMAGE_SIZE);
+
+        return imagePanel;
+    }
+
+    public JPanel createInformationPanel() {
+        final var panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(new JLabel(super.controller.getCaption()));
+        panel.add(new JLabel(super.controller.getActionsFilePath()));
+        panel.add(new JLabel(super.controller.getBehavioursFilePath()));
+        return panel;
+    }
+
+    private JPanel createSelectionIndicationPanel() {
+        final var panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+
+        panel.add(selectionIndicationLabel, BorderLayout.CENTER);
+        return panel;
     }
 
     /**
-     * Sets the selected state of the {@link #checkBox}.
+     * Determines whether this cell is selected.
      *
-     * @param value New selected state.
+     * @return Whether this cell is selected.
+     */
+    public boolean isSelected() {
+        return selectionIndicationLabel.getIcon() == null;
+    }
+
+    /**
+     * Sets the selection state of this cell.
+     *
+     * @param value New selection state.
      */
     public void setSelected(final boolean value) {
-        checkBox.setSelected(value);
+        selectionIndicationLabel.setText(value ? "✓": "");
     }
 }

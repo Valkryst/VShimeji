@@ -96,8 +96,8 @@
         <!-- UI Components -->
         <dependency>
             <groupId>com.github.Valkryst</groupId>
-            <artifactId>JIconLabel</artifactId>
-            <version>2025.5.23-hotfix2</version>
+            <artifactId>JImagePanel</artifactId>
+            <version>76e8799871</version>
         </dependency>
 
         <dependency>
