@@ -116,6 +116,7 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
      * @param value New selection state.
      */
     public void setSelected(final boolean value) {
+        super.controller.setSelected(value);
         selectionIndicationLabel.setText(value ? "✓": "");
     }
 }

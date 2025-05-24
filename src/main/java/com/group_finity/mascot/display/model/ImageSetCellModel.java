@@ -5,6 +5,7 @@ import com.group_finity.mascot.display.view.ImageSetCellView;
 import com.valkryst.VMVC.model.Model;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.extern.java.Log;
 
 import javax.imageio.ImageIO;
@@ -21,6 +22,9 @@ public class ImageSetCellModel extends Model<ImageSetCellController, ImageSetCel
     private final Path behavioursFilePath;
     private final String caption;
     private final Path imagePath;
+
+    /** Whether this cell is selected. */
+    @Setter private boolean isSelected = false;
 
     public ImageSetCellModel(
         final @NonNull String imageSet,

@@ -60,4 +60,13 @@ public class ImageSetCellController extends Controller<ImageSetCellModel> {
     public Optional<BufferedImage> getImage() {
         return super.model.getImage();
     }
+
+    /**
+     * Sets a new value for {@link ImageSetCellModel#isSelected}.
+     *
+     * @param selected New value for {@link ImageSetCellModel#isSelected}.
+     */
+    public void setSelected(final boolean selected) {
+        super.model.setSelected(selected);
+    }
 }
