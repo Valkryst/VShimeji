@@ -35,7 +35,6 @@ import java.util.stream.Collectors;
  */
 public class ImageSetChooser extends JDialog {
     private boolean closeProgram = true; // Whether the program closes on dispose
-    private boolean selectAllSets = false; // Default all to selected
 
     private final List<ImageSetCellModel> imageSetModels = new ArrayList<>();
 
@@ -189,7 +188,7 @@ public class ImageSetChooser extends JDialog {
                     caption,
                     imageFile
                 );
-                model.setSelected(activeImageSets.contains(imageSet) || selectAllSets);
+                model.setSelected(activeImageSets.contains(imageSet));
                 imageSetModels.add(model);
             }
         }
@@ -214,10 +213,7 @@ public class ImageSetChooser extends JDialog {
     }
 
     private List<String> readConfigFile() {
-        // now with properties style loading!
-        List<String> activeImageSets = new ArrayList<>(Arrays.asList(Main.getInstance().getProperties().getProperty("ActiveShimeji", "").split("/")));
-        selectAllSets = activeImageSets.get(0).trim().isEmpty(); // if no active ones, activate them all!
-        return activeImageSets;
+        return new ArrayList<>(Arrays.asList(Main.getInstance().getProperties().getProperty("ActiveShimeji", "").split("/")));
     }
 
     private void updateConfigFile() {
