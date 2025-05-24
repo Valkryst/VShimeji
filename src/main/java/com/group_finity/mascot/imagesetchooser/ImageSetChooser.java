@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Chooser used to select the Shimeji image sets in use.
@@ -33,21 +34,16 @@ import java.util.List;
  * @since 1.0.2
  */
 public class ImageSetChooser extends JDialog {
-    private final ArrayList<String> imageSets = new ArrayList<>();
     private boolean closeProgram = true; // Whether the program closes on dispose
     private boolean selectAllSets = false; // Default all to selected
 
+    private final List<ImageSetCellModel> imageSetModels = new ArrayList<>();
+
     public ImageSetChooser(Frame owner, boolean modal) {
         super(owner, modal);
-        initComponents();
         setLocationRelativeTo(null);
 
         List<String> activeImageSets = readConfigFile();
-
-        List<ImageSetCellModel> data1 = new ArrayList<>();
-        List<ImageSetCellModel> data2 = new ArrayList<>();
-        Collection<Integer> si1 = new ArrayList<>();
-        Collection<Integer> si2 = new ArrayList<>();
 
         // Get list of image sets (directories under img)
         FilenameFilter fileFilter = (dir, name) -> {
@@ -61,8 +57,6 @@ public class ImageSetChooser extends JDialog {
         String[] children = dir.list(fileFilter);
 
         // Create ImageSetCellViews for ShimejiList
-        boolean onList1 = true;    // Toggle adding between the two lists
-        int row = 0;    // Current row
         if (children != null) {
             for (String imageSet : children) {
                 // Determine actions file
@@ -188,52 +182,22 @@ public class ImageSetChooser extends JDialog {
                     caption = imageSet;
                 }
 
-                if (onList1) {
-                    onList1 = false;
-                    data1.add(
-                        new ImageSetCellModel(
-                            imageSet,
-                            actionsFile,
-                            behaviorsFile,
-                            caption,
-                            imageFile
-                        )
-                    );
-                    // Is this set initially selected?
-                    if (activeImageSets.contains(imageSet) || selectAllSets) {
-                        si1.add(row);
-                    }
-                } else {
-                    onList1 = true;
-                    data2.add(
-                        new ImageSetCellModel(
-                            imageSet,
-                            actionsFile,
-                            behaviorsFile,
-                            caption,
-                            imageFile
-                        )
-                    );
-                    // Is this set initially selected?
-                    if (activeImageSets.contains(imageSet) || selectAllSets) {
-                        si2.add(row);
-                    }
-                    row++; // Only increment the row number after the second column
-                }
-                imageSets.add(imageSet);
+                final var model = new ImageSetCellModel(
+                    imageSet,
+                    actionsFile,
+                    behaviorsFile,
+                    caption,
+                    imageFile
+                );
+                model.setSelected(activeImageSets.contains(imageSet) || selectAllSets);
+                imageSetModels.add(model);
             }
         }
 
-        setUpList1();
-        jList1.setListData(data1.toArray(new ImageSetCellModel[0]));
-        jList1.setSelectedIndices(convertIntegers(si1));
-
-        setUpList2();
-        jList2.setListData(data2.toArray(new ImageSetCellModel[0]));
-        jList2.setSelectedIndices(convertIntegers(si2));
+        initComponents();
     }
 
-    public ArrayList<String> display() {
+    public List<String> display() {
         setTitle(Main.getInstance().getLanguageBundle().getString("ShimejiImageSetChooser"));
         jLabel1.setText(Main.getInstance().getLanguageBundle().getString("SelectImageSetsToUse"));
         useSelectedButton.setText(Main.getInstance().getLanguageBundle().getString("UseSelected"));
@@ -245,7 +209,8 @@ public class ImageSetChooser extends JDialog {
         if (closeProgram) {
             return null;
         }
-        return imageSets;
+
+        return this.getImageSets();
     }
 
     private List<String> readConfigFile() {
@@ -257,7 +222,7 @@ public class ImageSetChooser extends JDialog {
 
     private void updateConfigFile() {
         try (OutputStream output = Files.newOutputStream(Main.SETTINGS_FILE)) {
-            Main.getInstance().getProperties().setProperty("ActiveShimeji", imageSets.toString().replace("[", "").replace("]", "").replace(", ", "/"));
+            Main.getInstance().getProperties().setProperty("ActiveShimeji", this.getImageSets().toString().replace("[", "").replace("]", "").replace(", ", "/"));
             Main.getInstance().getProperties().store(output, "Shimeji-ee Configuration Options");
         } catch (IOException e) {
             // Doesn't matter at all
@@ -272,41 +237,31 @@ public class ImageSetChooser extends JDialog {
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
-        jScrollPane1 = new JScrollPane();
-        jPanel2 = new JPanel();
-        jList1 = new ShimejiList();
-        jList2 = new ShimejiList();
         jLabel1 = new JLabel();
-        jPanel1 = new JPanel();
+        final JPanel jPanel1 = new JPanel();
         useSelectedButton = new JButton();
         useAllButton = new JButton();
         cancelButton = new JButton();
-        jPanel4 = new JPanel();
+        final JPanel jPanel4 = new JPanel();
         clearAllLabel = new JLabel();
-        slashLabel = new JLabel();
+        final JLabel slashLabel = new JLabel();
         selectAllLabel = new JLabel();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Shimeji-ee Image Set Chooser");
         setMinimumSize(new Dimension(670, 495));
 
-        jScrollPane1.setPreferredSize(new Dimension(518, 100));
+        final var imageSetPanel = new JPanel();
+        imageSetPanel.setLayout(new BoxLayout(imageSetPanel, BoxLayout.Y_AXIS));
+        for (final var model : imageSetModels) {
+            imageSetPanel.add(model.createView());
+        }
 
-        GroupLayout jPanel2Layout = new GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jList1, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                                .addGap(0, 0, 0)
-                                .addComponent(jList2, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)));
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(jList2, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                        .addComponent(jList1, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE));
-
-        jScrollPane1.setViewportView(jPanel2);
+        final JScrollPane jScrollPane1 = new JScrollPane(imageSetPanel);
+        jScrollPane1.setDoubleBuffered(true);
+        jScrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(8);
 
         jLabel1.setText("Select Image Sets to Use:");
 
@@ -389,31 +344,19 @@ public class ImageSetChooser extends JDialog {
         pack();
     }// </editor-fold>
 
-    private void clearAllLabelMouseClicked(MouseEvent evt) {
-        jList1.clearSelection();
-        jList2.clearSelection();
+    private void clearAllLabelMouseClicked(final MouseEvent e) {
+        for (final var model : imageSetModels) {
+            model.setSelected(false);
+        }
     }
 
     private void selectAllLabelMouseClicked(MouseEvent evt) {
-        jList1.setSelectionInterval(0, jList1.getModel().getSize() - 1);
-        jList2.setSelectionInterval(0, jList2.getModel().getSize() - 1);
+        for (final var model : imageSetModels) {
+            model.setSelected(true);
+        }
     }
 
     private void useSelectedButtonActionPerformed(ActionEvent evt) {
-        imageSets.clear();
-
-        for (final var obj : jList1.getSelectedValuesList()) {
-            if (obj != null) {
-                imageSets.add(obj.getImageSet());
-            }
-        }
-
-        for (final var obj : jList2.getSelectedValuesList()) {
-            if (obj != null) {
-                imageSets.add(obj.getImageSet());
-            }
-        }
-
         updateConfigFile();
         closeProgram = false;
         dispose();
@@ -433,68 +376,8 @@ public class ImageSetChooser extends JDialog {
         return integers.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    private void setUpList1() {
-        jList1.setSelectionModel(new DefaultListSelectionModel() {
-            private int i0 = -1;
-            private int i1 = -1;
-
-            @Override
-            public void setSelectionInterval(int index0, int index1) {
-                // These statements ensure that the buttons do not flicker whenever the cursor is dragged over them
-                // This code was made by Francisco on StackOverflow (https://stackoverflow.com/a/5831609)
-                if (i0 == index0 && i1 == index1) {
-                    if (getValueIsAdjusting()) {
-                        setValueIsAdjusting(false);
-                        setSelection(index0, index1);
-                    }
-                } else {
-                    i0 = index0;
-                    i1 = index1;
-                    setValueIsAdjusting(false);
-                    setSelection(index0, index1);
-                }
-            }
-
-            private void setSelection(int index0, int index1) {
-                if (isSelectedIndex(index0)) {
-                    removeSelectionInterval(index0, index1);
-                } else {
-                    addSelectionInterval(index0, index1);
-                }
-            }
-        });
-    }
-
-    private void setUpList2() {
-        jList2.setSelectionModel(new DefaultListSelectionModel() {
-            private int i0 = -1;
-            private int i1 = -1;
-
-            @Override
-            public void setSelectionInterval(int index0, int index1) {
-                // These statements ensure that the buttons do not flicker whenever the cursor is dragged over them
-                // This code was made by Francisco on StackOverflow (https://stackoverflow.com/a/5831609)
-                if (i0 == index0 && i1 == index1) {
-                    if (getValueIsAdjusting()) {
-                        setValueIsAdjusting(false);
-                        setSelection(index0, index1);
-                    }
-                } else {
-                    i0 = index0;
-                    i1 = index1;
-                    setValueIsAdjusting(false);
-                    setSelection(index0, index1);
-                }
-            }
-
-            private void setSelection(int index0, int index1) {
-                if (isSelectedIndex(index0)) {
-                    removeSelectionInterval(index0, index1);
-                } else {
-                    addSelectionInterval(index0, index1);
-                }
-            }
-        });
+    public List<String> getImageSets() {
+        return imageSetModels.stream().map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
     /**
@@ -511,14 +394,7 @@ public class ImageSetChooser extends JDialog {
     private JButton cancelButton;
     private JLabel clearAllLabel;
     private JLabel jLabel1;
-    private JList<ImageSetCellModel> jList1;
-    private JList<ImageSetCellModel> jList2;
-    private JPanel jPanel1;
-    private JPanel jPanel2;
-    private JPanel jPanel4;
-    private JScrollPane jScrollPane1;
     private JLabel selectAllLabel;
-    private JLabel slashLabel;
     private JButton useAllButton;
     private JButton useSelectedButton;
     // End of variables declaration

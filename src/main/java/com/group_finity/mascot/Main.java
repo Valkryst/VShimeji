@@ -14,8 +14,8 @@ import com.group_finity.mascot.image.ImagePairs;
 import com.group_finity.mascot.imagesetchooser.ImageSetChooser;
 import com.group_finity.mascot.sound.Sounds;
 import com.jthemedetecor.OsThemeDetector;
-import org.apache.commons.exec.OS;
 import lombok.extern.java.Log;
+import org.apache.commons.exec.OS;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -40,6 +40,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
@@ -84,7 +85,7 @@ public class Main {
     }
 
     private final Manager manager = new Manager();
-    private ArrayList<String> imageSets = new ArrayList<>();
+    private List<String> imageSets = new ArrayList<>();
     private ConcurrentHashMap<String, Configuration> configurations = new ConcurrentHashMap<>();
     private ConcurrentHashMap<String, ArrayList<String>> childImageSets = new ConcurrentHashMap<>();
     private static Main instance = new Main();
