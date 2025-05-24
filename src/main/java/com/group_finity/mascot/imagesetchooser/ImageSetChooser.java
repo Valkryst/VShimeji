@@ -222,7 +222,7 @@ public class ImageSetChooser extends JDialog {
 
     private void updateConfigFile() {
         try (OutputStream output = Files.newOutputStream(Main.SETTINGS_FILE)) {
-            Main.getInstance().getProperties().setProperty("ActiveShimeji", this.getImageSets().toString().replace("[", "").replace("]", "").replace(", ", "/"));
+            Main.getInstance().getProperties().setProperty("ActiveShimeji", this.getSelectedImageSets().toString().replace("[", "").replace("]", "").replace(", ", "/"));
             Main.getInstance().getProperties().store(output, "Shimeji-ee Configuration Options");
         } catch (IOException e) {
             // Doesn't matter at all
@@ -378,6 +378,10 @@ public class ImageSetChooser extends JDialog {
 
     public List<String> getImageSets() {
         return imageSetModels.stream().map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
+    }
+
+    public List<String> getSelectedImageSets() {
+        return imageSetModels.stream().dropWhile(model -> !model.isSelected()).map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
     /**
