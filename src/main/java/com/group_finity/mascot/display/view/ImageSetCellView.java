@@ -29,6 +29,7 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
         super(controller);
 
         selectionIndicationLabel.setFont(super.getFont().deriveFont(32f));
+        this.setSelected(controller.isSelected());
 
         this.setBorder(BorderFactory.createEtchedBorder());
         this.setLayout(new BorderLayout());
@@ -116,7 +117,6 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
      * @param value New selection state.
      */
     public void setSelected(final boolean value) {
-        super.controller.setSelected(value);
         selectionIndicationLabel.setText(value ? "✓": "");
     }
 }

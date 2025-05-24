@@ -5,7 +5,6 @@ import com.group_finity.mascot.display.view.ImageSetCellView;
 import com.valkryst.VMVC.model.Model;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import lombok.extern.java.Log;
 
 import javax.imageio.ImageIO;
@@ -17,6 +16,8 @@ import java.util.Optional;
 @Getter
 @Log
 public class ImageSetCellModel extends Model<ImageSetCellController, ImageSetCellView> {
+    private ImageSetCellView view;
+
     private final String imageSet;
     private final Path actionsFilePath;
     private final Path behavioursFilePath;
@@ -24,7 +25,7 @@ public class ImageSetCellModel extends Model<ImageSetCellController, ImageSetCel
     private final Path imagePath;
 
     /** Whether this cell is selected. */
-    @Setter private boolean isSelected = false;
+    private boolean isSelected = false;
 
     public ImageSetCellModel(
         final @NonNull String imageSet,
@@ -46,8 +47,12 @@ public class ImageSetCellModel extends Model<ImageSetCellController, ImageSetCel
     }
 
     @Override
-    protected ImageSetCellView createView(final @NonNull ImageSetCellController controller) {
-        return new ImageSetCellView(controller);
+    protected synchronized ImageSetCellView createView(final @NonNull ImageSetCellController controller) {
+        if (view == null) {
+            view = new ImageSetCellView(controller);
+        }
+
+        return view;
     }
 
     /**
@@ -61,6 +66,19 @@ public class ImageSetCellModel extends Model<ImageSetCellController, ImageSetCel
         } catch (final IOException e) {
             log.warning("Failed to load image from '" + this.imagePath + "': " + e.getMessage());
             return Optional.empty();
+        }
+    }
+
+    /**
+     * Sets the new selection state of this cell.
+     *
+     * @param isSelected Whether this cell is selected.
+     */
+    public synchronized void setSelected(final boolean isSelected) {
+        this.isSelected = isSelected;
+
+        if (view != null) {
+            this.view.setSelected(isSelected);
         }
     }
 }
