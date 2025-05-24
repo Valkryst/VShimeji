@@ -1115,7 +1115,7 @@ public class Main {
         updateConfigFile();
     }
 
-    private void updateConfigFile() {
+    public void updateConfigFile() {
         try (OutputStream output = Files.newOutputStream(SETTINGS_FILE)) {
             properties.store(output, "Shimeji-ee Configuration Options");
         } catch (IOException e) {

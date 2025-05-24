@@ -18,7 +18,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -217,12 +216,9 @@ public class ImageSetChooser extends JDialog {
     }
 
     private void updateConfigFile() {
-        try (OutputStream output = Files.newOutputStream(Main.SETTINGS_FILE)) {
-            Main.getInstance().getProperties().setProperty("ActiveShimeji", this.getSelectedImageSets().toString().replace("[", "").replace("]", "").replace(", ", "/"));
-            Main.getInstance().getProperties().store(output, "Shimeji-ee Configuration Options");
-        } catch (IOException e) {
-            // Doesn't matter at all
-        }
+        final var main = Main.getInstance();
+        main.getProperties().setProperty("ActiveShimeji", this.getSelectedImageSets().toString().replace("[", "").replace("]", "").replace(", ", "/"));
+        main.updateConfigFile();
     }
 
     /**
