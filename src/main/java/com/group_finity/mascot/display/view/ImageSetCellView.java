@@ -39,6 +39,7 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
         this.add(this.createSelectionIndicationPanel(), BorderLayout.EAST);
 
         this.addMouseListener(this);
+        this.addMouseMotionListener(this);
     }
 
     @Override
