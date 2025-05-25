@@ -373,7 +373,7 @@ public class ImageSetChooser extends JDialog {
     }
 
     public List<String> getSelectedImageSets() {
-        return imageSetModels.stream().dropWhile(model -> !model.isSelected()).map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
+        return imageSetModels.stream().filter(ImageSetCellModel::isSelected).map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
     /**
