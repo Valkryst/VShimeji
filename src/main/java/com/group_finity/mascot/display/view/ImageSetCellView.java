@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.nio.file.Path;
+import java.util.Objects;
 
 public class ImageSetCellView extends View<ImageSetCellController> implements MouseInputListener {
     /**
@@ -74,6 +76,11 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
     @Override
     public void mouseMoved(final MouseEvent e) {}
 
+    /**
+     * Creates a {@link JPanel} containing the image.
+     *
+     * @return Created {@link JPanel}.
+     */
     public JPanel createImagePanel() {
         final var optImage = controller.getImage();
 
@@ -89,6 +96,11 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
         return imagePanel;
     }
 
+    /**
+     * Creates a {@link JPanel} containing the Shimeji's name and related information.
+     *
+     * @return Created {@link JPanel}.
+     */
     public JPanel createInformationPanel() {
         final var panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 10));
@@ -101,19 +113,39 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
         panel.add(Box.createVerticalStrut(8));
 
         // Add file link panels
-        var linkLabel = new JFileLinkLabel("Actions: " + super.controller.getActionsFilePath().toString(), super.controller.getActionsFilePath());
-        linkLabel.setMaximumSize(linkLabel.getPreferredSize());
-        panel.add(linkLabel);
-
+        panel.add(this.createFileLinkLabel("Actions", super.controller.getActionsFilePath()));
         panel.add(Box.createVerticalStrut(4));
-
-        linkLabel = new JFileLinkLabel("Behaviors: " + super.controller.getBehavioursFilePath().toString(), super.controller.getBehavioursFilePath());
-        linkLabel.setMaximumSize(linkLabel.getPreferredSize());
-        panel.add(linkLabel);
+        panel.add(this.createFileLinkLabel("Behaviours", super.controller.getBehavioursFilePath()));
 
         return panel;
     }
 
+    /**
+     * Creates a {@link JFileLinkLabel} with the specified suffix and path.
+     *
+     * @param suffix Text to display before the path.
+     * @param path Path to display.
+     * @return Created {@link JFileLinkLabel}.
+     */
+    private JFileLinkLabel createFileLinkLabel(final String suffix, final Path path) {
+        Objects.requireNonNull(suffix);
+        Objects.requireNonNull(path);
+
+        if (suffix.isBlank()) {
+            throw new IllegalArgumentException("Suffix cannot be blank.");
+        }
+
+        final var linkLabel = new JFileLinkLabel(suffix + ": " + path, path);
+        linkLabel.setMaximumSize(linkLabel.getPreferredSize());
+        return linkLabel;
+
+    }
+
+    /**
+     * Creates a {@link JPanel} with a {@link JLabel} which indicates the selection state.
+     *
+     * @return Created {@link JPanel}.
+     */
     private JPanel createSelectionIndicationPanel() {
         final var panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
