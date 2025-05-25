@@ -34,6 +34,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -104,9 +105,9 @@ public class Main {
         JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void main(final String[] args) {
-        Main.updateLookAndFeel();
-        OsThemeDetector.getDetector().registerListener(ignored -> updateLookAndFeel());
+    public static void main(final String[] args) throws InterruptedException, InvocationTargetException {
+        SwingUtilities.invokeAndWait(Main::updateLookAndFeel);
+        OsThemeDetector.getDetector().registerListener(ignored -> SwingUtilities.invokeLater(Main::updateLookAndFeel));
 
         try {
             getInstance().run();
@@ -1253,27 +1254,25 @@ public class Main {
 
     /** Updates the {@link LookAndFeel} of the application based on the current OS and whether it's using dark/light mode. */
     private static void updateLookAndFeel() {
-        SwingUtilities.invokeLater(() -> {
-            final boolean isDark = OsThemeDetector.isSupported() && OsThemeDetector.getDetector().isDark();
+        final boolean isDark = OsThemeDetector.isSupported() && OsThemeDetector.getDetector().isDark();
 
-            if (OS.isFamilyMac()) {
-                if (isDark) {
-                    FlatMacDarkLaf.setup();
-                } else {
-                    FlatMacLightLaf.setup();
-                }
-
-
-                FlatLaf.updateUI();
-                return;
-            }
-
+        if (OS.isFamilyMac()) {
             if (isDark) {
-                FlatDarkLaf.setup();
+                FlatMacDarkLaf.setup();
             } else {
-                FlatLightLaf.setup();
+                FlatMacLightLaf.setup();
             }
+
+
             FlatLaf.updateUI();
-        });
+            return;
+        }
+
+        if (isDark) {
+            FlatDarkLaf.setup();
+        } else {
+            FlatLightLaf.setup();
+        }
+        FlatLaf.updateUI();
     }
 }
