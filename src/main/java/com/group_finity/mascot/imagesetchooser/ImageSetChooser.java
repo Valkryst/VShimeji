@@ -39,7 +39,6 @@ public class ImageSetChooser extends JDialog {
 
     public ImageSetChooser(Frame owner, boolean modal) {
         super(owner, modal);
-        setLocationRelativeTo(null);
 
         List<String> activeImageSets = readConfigFile();
 
@@ -192,7 +191,8 @@ public class ImageSetChooser extends JDialog {
             }
         }
 
-        initComponents();
+        this.initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     public List<String> display() {
