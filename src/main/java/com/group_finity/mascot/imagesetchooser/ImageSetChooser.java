@@ -281,7 +281,7 @@ public class ImageSetChooser extends JDialog {
 
         jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.LINE_AXIS));
 
-        clearAllLabel.setForeground(new Color(0, 0, 204));
+        clearAllLabel.setForeground(UIManager.getColor("textHighlight"));
         clearAllLabel.setText("Clear All");
         clearAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         clearAllLabel.addMouseListener(new MouseAdapter() {
@@ -295,7 +295,7 @@ public class ImageSetChooser extends JDialog {
         slashLabel.setText(" / ");
         jPanel4.add(slashLabel);
 
-        selectAllLabel.setForeground(new Color(0, 0, 204));
+        selectAllLabel.setForeground(UIManager.getColor("textHighlight"));
         selectAllLabel.setText("Select All");
         selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         selectAllLabel.addMouseListener(new MouseAdapter() {
