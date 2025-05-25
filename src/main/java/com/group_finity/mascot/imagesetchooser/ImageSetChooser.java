@@ -360,16 +360,6 @@ public class ImageSetChooser extends JDialog {
         return imageSetModels.stream().filter(ImageSetCellModel::isSelected).map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            new ImageSetChooser(new JFrame(), true).display();
-            System.exit(0);
-        });
-    }
-
     // Variables declaration - do not modify
     private JButton cancelButton;
     private JLabel clearAllLabel;
