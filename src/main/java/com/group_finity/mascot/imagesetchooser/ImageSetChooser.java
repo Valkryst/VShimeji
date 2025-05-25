@@ -207,7 +207,7 @@ public class ImageSetChooser extends JDialog {
             return null;
         }
 
-        return this.getImageSets();
+        return this.getSelectedImageSets();
     }
 
     private List<String> readConfigFile() {
@@ -354,10 +354,6 @@ public class ImageSetChooser extends JDialog {
 
     private void cancelButtonActionPerformed(ActionEvent evt) {
         dispose();
-    }
-
-    public List<String> getImageSets() {
-        return imageSetModels.stream().map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
     public List<String> getSelectedImageSets() {
