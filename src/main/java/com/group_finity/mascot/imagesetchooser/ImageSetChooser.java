@@ -268,7 +268,7 @@ public class ImageSetChooser extends JDialog {
         cancelButton.setMaximumSize(new Dimension(95, 23));
         cancelButton.setMinimumSize(new Dimension(95, 23));
         cancelButton.setPreferredSize(new Dimension(130, 26));
-        cancelButton.addActionListener(this::cancelButtonActionPerformed);
+        cancelButton.addActionListener(e -> this.dispose());
         jPanel1.add(cancelButton);
 
         jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.LINE_AXIS));
@@ -278,8 +278,10 @@ public class ImageSetChooser extends JDialog {
         clearAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         clearAllLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                clearAllLabelMouseClicked(e);
+            public void mouseClicked(final MouseEvent e) {
+                for (final var model : imageSetModels) {
+                    model.setSelected(false);
+                }
             }
         });
         jPanel4.add(clearAllLabel);
@@ -292,8 +294,10 @@ public class ImageSetChooser extends JDialog {
         selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         selectAllLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                selectAllLabelMouseClicked(e);
+            public void mouseClicked(final MouseEvent e) {
+                for (final var model : imageSetModels) {
+                    model.setSelected(true);
+                }
             }
         });
         jPanel4.add(selectAllLabel);
@@ -328,18 +332,6 @@ public class ImageSetChooser extends JDialog {
         pack();
     }
 
-    private void clearAllLabelMouseClicked(final MouseEvent e) {
-        for (final var model : imageSetModels) {
-            model.setSelected(false);
-        }
-    }
-
-    private void selectAllLabelMouseClicked(MouseEvent evt) {
-        for (final var model : imageSetModels) {
-            model.setSelected(true);
-        }
-    }
-
     private void useSelectedButtonActionPerformed(ActionEvent evt) {
         updateConfigFile();
         closeProgram = false;
@@ -349,10 +341,6 @@ public class ImageSetChooser extends JDialog {
     private void useAllButtonActionPerformed(ActionEvent evt) {
         updateConfigFile();
         closeProgram = false;
-        dispose();
-    }
-
-    private void cancelButtonActionPerformed(ActionEvent evt) {
         dispose();
     }
 
