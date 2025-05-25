@@ -1,6 +1,7 @@
 package com.group_finity.mascot.display.view;
 
 import com.group_finity.mascot.display.controller.ImageSetCellController;
+import com.valkryst.JFileLinkLabel.JFileLinkLabel;
 import com.valkryst.JImagePanel.JImagePanel;
 import com.valkryst.VMVC.view.View;
 
@@ -61,8 +62,10 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
 
     @Override
     public void mouseExited(final MouseEvent e) {
-        this.setCursor(Cursor.getDefaultCursor());
-        this.setBackground(UIManager.getColor("Panel.background"));
+        if (!this.contains(e.getPoint())) {
+            this.setCursor(Cursor.getDefaultCursor());
+            this.setBackground(UIManager.getColor("Panel.background"));
+        }
     }
 
     @Override
@@ -88,12 +91,26 @@ public class ImageSetCellView extends View<ImageSetCellController> implements Mo
 
     public JPanel createInformationPanel() {
         final var panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 10, 5, 10));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        panel.add(new JLabel(super.controller.getCaption()));
-        panel.add(new JLabel(super.controller.getActionsFilePath()));
-        panel.add(new JLabel(super.controller.getBehavioursFilePath()));
+        // Caption as a bold header
+        final var nameLabel = new JLabel(super.controller.getCaption());
+        nameLabel.setFont(nameLabel.getFont().deriveFont(13f));
+        panel.add(nameLabel);
+        panel.add(Box.createVerticalStrut(8));
+
+        // Add file link panels
+        var linkLabel = new JFileLinkLabel("Actions: " + super.controller.getActionsFilePath().toString(), super.controller.getActionsFilePath());
+        linkLabel.setMaximumSize(linkLabel.getPreferredSize());
+        panel.add(linkLabel);
+
+        panel.add(Box.createVerticalStrut(4));
+
+        linkLabel = new JFileLinkLabel("Behaviors: " + super.controller.getBehavioursFilePath().toString(), super.controller.getBehavioursFilePath());
+        linkLabel.setMaximumSize(linkLabel.getPreferredSize());
+        panel.add(linkLabel);
+
         return panel;
     }
 

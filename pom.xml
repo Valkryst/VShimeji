@@ -96,6 +96,11 @@
         <!-- UI Components -->
         <dependency>
             <groupId>com.github.Valkryst</groupId>
+            <artifactId>JFileLinkLabel</artifactId>
+            <version>5af950e</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Valkryst</groupId>
             <artifactId>JImagePanel</artifactId>
             <version>76e8799871</version>
         </dependency>

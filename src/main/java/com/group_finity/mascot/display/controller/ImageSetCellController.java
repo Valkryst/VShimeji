@@ -4,6 +4,7 @@ import com.group_finity.mascot.display.model.ImageSetCellModel;
 import com.valkryst.VMVC.controller.Controller;
 
 import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 import java.util.Optional;
 
 public class ImageSetCellController extends Controller<ImageSetCellModel> {
@@ -35,21 +36,21 @@ public class ImageSetCellController extends Controller<ImageSetCellModel> {
     }
 
     /**
-     * Retrieves the result of {@link ImageSetCellModel#getActionsFilePath()}, cast to a {@link String}.
+     * Retrieves the result of {@link ImageSetCellModel#getActionsFilePath()}.
      *
-     * @return Result of {@link ImageSetCellModel#getActionsFilePath()}, cast to a {@link String}.
+     * @return Result of {@link ImageSetCellModel#getActionsFilePath()}.
      */
-    public String getActionsFilePath() {
-        return super.model.getActionsFilePath().toString();
+    public Path getActionsFilePath() {
+        return super.model.getActionsFilePath();
     }
 
     /**
-     * Retrieves the result of {@link ImageSetCellModel#getBehavioursFilePath()}, cast to a {@link String}.
+     * Retrieves the result of {@link ImageSetCellModel#getBehavioursFilePath()}.
      *
-     * @return Result of {@link ImageSetCellModel#getBehavioursFilePath()}, cast to a {@link String}.
+     * @return Result of {@link ImageSetCellModel#getBehavioursFilePath()}.
      */
-    public String getBehavioursFilePath() {
-        return super.model.getBehavioursFilePath().toString();
+    public Path getBehavioursFilePath() {
+        return super.model.getBehavioursFilePath();
     }
 
     /**
