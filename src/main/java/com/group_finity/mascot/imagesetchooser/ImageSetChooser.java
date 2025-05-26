@@ -197,11 +197,6 @@ public class ImageSetChooser extends JDialog {
     public List<String> display() {
         setTitle(Main.getInstance().getLanguageBundle().getString("ShimejiImageSetChooser"));
         jLabel1.setText(Main.getInstance().getLanguageBundle().getString("SelectImageSetsToUse"));
-        useSelectedButton.setText(Main.getInstance().getLanguageBundle().getString("UseSelected"));
-        useAllButton.setText(Main.getInstance().getLanguageBundle().getString("UseAll"));
-        cancelButton.setText(Main.getInstance().getLanguageBundle().getString("Cancel"));
-        clearAllLabel.setText(Main.getInstance().getLanguageBundle().getString("ClearAll"));
-        selectAllLabel.setText(Main.getInstance().getLanguageBundle().getString("SelectAll"));
         setVisible(true);
         if (closeProgram) {
             return null;
@@ -223,13 +218,7 @@ public class ImageSetChooser extends JDialog {
     private void initComponents() {
         jLabel1 = new JLabel();
         final JPanel jPanel1 = new JPanel();
-        useSelectedButton = new JButton();
-        useAllButton = new JButton();
-        cancelButton = new JButton();
         final JPanel jPanel4 = new JPanel();
-        clearAllLabel = new JLabel();
-        final JLabel slashLabel = new JLabel();
-        selectAllLabel = new JLabel();
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Shimeji-ee Image Set Chooser");
@@ -249,58 +238,9 @@ public class ImageSetChooser extends JDialog {
 
         jLabel1.setText("Select Image Sets to Use:");
 
-        jPanel1.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
-
-        useSelectedButton.setText("Use Selected");
-        useSelectedButton.setMaximumSize(new Dimension(130, 26));
-        useSelectedButton.setPreferredSize(new Dimension(130, 26));
-        useSelectedButton.addActionListener(this::useSelectedButtonActionPerformed);
-        jPanel1.add(useSelectedButton);
-
-        useAllButton.setText("Use All");
-        useAllButton.setMaximumSize(new Dimension(95, 23));
-        useAllButton.setMinimumSize(new Dimension(95, 23));
-        useAllButton.setPreferredSize(new Dimension(130, 26));
-        useAllButton.addActionListener(this::useAllButtonActionPerformed);
-        jPanel1.add(useAllButton);
-
-        cancelButton.setText("Cancel");
-        cancelButton.setMaximumSize(new Dimension(95, 23));
-        cancelButton.setMinimumSize(new Dimension(95, 23));
-        cancelButton.setPreferredSize(new Dimension(130, 26));
-        cancelButton.addActionListener(e -> this.dispose());
-        jPanel1.add(cancelButton);
-
-        jPanel4.setLayout(new BoxLayout(jPanel4, BoxLayout.LINE_AXIS));
-
-        clearAllLabel.setForeground(UIManager.getColor("textHighlight"));
-        clearAllLabel.setText("Clear All");
-        clearAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        clearAllLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(final MouseEvent e) {
-                for (final var model : imageSetModels) {
-                    model.setSelected(false);
-                }
-            }
-        });
-        jPanel4.add(clearAllLabel);
-
-        slashLabel.setText(" / ");
-        jPanel4.add(slashLabel);
-
-        selectAllLabel.setForeground(UIManager.getColor("textHighlight"));
-        selectAllLabel.setText("Select All");
-        selectAllLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        selectAllLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(final MouseEvent e) {
-                for (final var model : imageSetModels) {
-                    model.setSelected(true);
-                }
-            }
-        });
-        jPanel4.add(selectAllLabel);
+        jPanel1.setLayout(new BorderLayout());
+        jPanel1.add(this.createSelectionButtonPanel(), BorderLayout.WEST);
+        jPanel1.add(this.createConfirmationButtonPanel(), BorderLayout.EAST);
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -332,6 +272,50 @@ public class ImageSetChooser extends JDialog {
         pack();
     }
 
+    private JPanel createSelectionButtonPanel() {
+        final var selectAllButton = new JButton(Main.getInstance().getLanguageBundle().getString("SelectAll"));
+        selectAllButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                for (ImageSetCellModel model : imageSetModels) {
+                    model.setSelected(true);
+                }
+            }
+        });
+
+        final var clearAllButton = new JButton(Main.getInstance().getLanguageBundle().getString("ClearAll"));
+        clearAllButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                for (ImageSetCellModel model : imageSetModels) {
+                    model.setSelected(false);
+                }
+            }
+        });
+
+        final var panel = new JPanel();
+        panel.add(selectAllButton);
+        panel.add(clearAllButton);
+        return panel;
+    }
+
+    private JPanel createConfirmationButtonPanel() {
+        final var useSelectedButton = new JButton(Main.getInstance().getLanguageBundle().getString("UseSelected"));
+        useSelectedButton.addActionListener(this::useSelectedButtonActionPerformed);
+
+        final var useAllButton = new JButton(Main.getInstance().getLanguageBundle().getString("UseAll"));
+        useAllButton.addActionListener(this::useAllButtonActionPerformed);
+
+        final var cancelButton = new JButton(Main.getInstance().getLanguageBundle().getString("Cancel"));
+        cancelButton.addActionListener(e -> this.dispose());
+
+        final var panel = new JPanel();
+        panel.add(useSelectedButton);
+        panel.add(useAllButton);
+        panel.add(cancelButton);
+        return panel;
+    }
+
     private void useSelectedButtonActionPerformed(ActionEvent evt) {
         updateConfigFile();
         closeProgram = false;
@@ -348,12 +332,5 @@ public class ImageSetChooser extends JDialog {
         return imageSetModels.stream().filter(ImageSetCellModel::isSelected).map(ImageSetCellModel::getImageSet).collect(Collectors.toList());
     }
 
-    // Variables declaration - do not modify
-    private JButton cancelButton;
-    private JLabel clearAllLabel;
     private JLabel jLabel1;
-    private JLabel selectAllLabel;
-    private JButton useAllButton;
-    private JButton useSelectedButton;
-    // End of variables declaration
 }
