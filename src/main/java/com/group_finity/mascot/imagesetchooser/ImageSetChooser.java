@@ -317,15 +317,19 @@ public class ImageSetChooser extends JDialog {
     }
 
     private void useSelectedButtonActionPerformed(ActionEvent evt) {
-        updateConfigFile();
+        this.updateConfigFile();
         closeProgram = false;
-        dispose();
+        this.dispose();
     }
 
     private void useAllButtonActionPerformed(ActionEvent evt) {
-        updateConfigFile();
+        for (final var model : imageSetModels) {
+            model.setSelected(true);
+        }
+
+        this.updateConfigFile();
         closeProgram = false;
-        dispose();
+        this.dispose();
     }
 
     public List<String> getSelectedImageSets() {
