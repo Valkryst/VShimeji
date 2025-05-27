@@ -6,7 +6,7 @@
 
     <groupId>com.group_finity</groupId>
     <artifactId>mascot</artifactId>
-    <version>2025.5.26</version>
+    <version>2025.5.27</version>
     <packaging>jar</packaging>
 
     <name>Shimeji-ee</name>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Valkryst</groupId>
             <artifactId>JFileLinkLabel</artifactId>
-            <version>2025.5.26</version>
+            <version>2025.5.27</version>
         </dependency>
         <dependency>
             <groupId>com.github.Valkryst</groupId>
