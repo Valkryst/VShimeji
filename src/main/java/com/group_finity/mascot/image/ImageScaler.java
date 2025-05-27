@@ -1,8 +1,6 @@
 package com.group_finity.mascot.image;
 
-import com.valkryst.VHQX.Hqx_2x;
-import com.valkryst.VHQX.Hqx_3x;
-import com.valkryst.VHQX.Hqx_4x;
+import com.valkryst.VHQX.VHQX;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -37,7 +35,7 @@ public enum ImageScaler {
 
         // The HQX algorithm can only be used for upscaling.
         if (this == HQX && scaleFactor > 1.0) {
-            return this.scaleHQX(source, scaleFactor);
+            return this.scaleHQX(source, (int) scaleFactor);
         }
 
         final int scaledWidth = (int) Math.round(source.getWidth() * scaleFactor);
@@ -78,59 +76,8 @@ public enum ImageScaler {
      * @param scaleFactor Amount to scale the image by.
      * @return The rescaled {@link BufferedImage}.
      */
-    private BufferedImage scaleHQX(final BufferedImage source, double scaleFactor) {
-        int scaledWidth = source.getWidth();
-        int scaledHeight = source.getHeight();
-        final BufferedImage destination;
-
-        int[] buffer;
-        int[] rbgValues = source.getRGB(0, 0, scaledWidth, scaledHeight, null, 0, scaledWidth);
-
-        if (scaleFactor == 4 || scaleFactor == 8) {
-            scaledWidth *= 4;
-            scaledHeight *= 4;
-            buffer = new int[scaledWidth * scaledHeight];
-            Hqx_4x.hq4x_32_rb(rbgValues, buffer, scaledWidth / 4, scaledHeight / 4);
-            rbgValues = buffer;
-            scaleFactor = scaleFactor > 4 ? 2 : 1;
-        } else if (scaleFactor == 3 || scaleFactor == 6) {
-            scaledWidth *= 3;
-            scaledHeight *= 3;
-            buffer = new int[scaledWidth * scaledHeight];
-            Hqx_3x.hq3x_32_rb(rbgValues, buffer, scaledWidth / 3, scaledHeight / 3);
-            rbgValues = buffer;
-            scaleFactor = scaleFactor > 4 ? 2 : 1;
-        } else if (scaleFactor == 2) {
-            scaledWidth *= 2;
-            scaledHeight *= 2;
-            buffer = new int[scaledWidth * scaledHeight];
-            Hqx_2x.hq2x_32_rb(rbgValues, buffer, scaledWidth / 2, scaledHeight / 2);
-            rbgValues = buffer;
-            scaleFactor = 1;
-        } else {
-            throw new UnsupportedOperationException("The HQX algorithm cannot be used with a scaleFactor of " + scaleFactor + ".");
-        }
-
-        destination = new BufferedImage((int) Math.round(scaledWidth * scaleFactor), (int) Math.round(scaledHeight * scaleFactor), BufferedImage.TYPE_INT_ARGB_PRE);
-        int srcColIndex = 0;
-        int srcRowIndex = 0;
-
-        for (int y = 0; y < destination.getHeight(); y++) {
-            for (int x = 0; x < destination.getWidth(); x++) {
-                destination.setRGB(x, y, rbgValues[srcColIndex / (int) scaleFactor]);
-                srcColIndex++;
-            }
-
-            // resets the srcColIndex to re-use the same indexes and stretch horizontally
-            srcRowIndex++;
-            if (srcRowIndex == scaleFactor) {
-                srcRowIndex = 0;
-            } else {
-                srcColIndex -= destination.getWidth();
-            }
-        }
-
-        return destination;
+    private BufferedImage scaleHQX(final BufferedImage source, int scaleFactor) {
+        return new VHQX().scale(source, scaleFactor);
     }
 
     /**
