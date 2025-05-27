@@ -5,6 +5,7 @@ import com.group_finity.mascot.config.Configuration;
 import com.group_finity.mascot.config.Entry;
 import com.group_finity.mascot.display.model.ImageSetCellModel;
 import com.group_finity.mascot.exception.ConfigurationException;
+import lombok.extern.java.Log;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @author Shimeji-ee Group
  * @since 1.0.2
  */
+@Log
 public class ImageSetChooser extends JDialog {
     private boolean closeProgram = true; // Whether the program closes on dispose
 
@@ -174,6 +176,7 @@ public class ImageSetChooser extends JDialog {
                     }
 
                 } catch (ConfigurationException | ParserConfigurationException | IOException | SAXException ex) {
+                    log.warning("Failed to read information file for image set '" + imageSet + "': " + ex.getMessage());
                     imageFile = Main.IMAGE_DIRECTORY.resolve(imageSet).resolve("shime1.png");
                     caption = imageSet;
                 }
