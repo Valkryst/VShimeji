@@ -109,7 +109,7 @@
         <dependency>
             <groupId>com.github.Valkryst</groupId>
             <artifactId>VHQX</artifactId>
-            <version>2025.5.27</version>
+            <version>2025.5.27-2</version>
         </dependency>
 
         <dependency>
