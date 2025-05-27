@@ -97,7 +97,7 @@
         <dependency>
             <groupId>com.github.Valkryst</groupId>
             <artifactId>JFileLinkLabel</artifactId>
-            <version>2025.5.27</version>
+            <version>2025.5.26</version>
         </dependency>
         <dependency>
             <groupId>com.github.Valkryst</groupId>
