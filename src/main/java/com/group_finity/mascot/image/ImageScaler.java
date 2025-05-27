@@ -1,8 +1,8 @@
 package com.group_finity.mascot.image;
 
-import hqx.Hqx_2x;
-import hqx.Hqx_3x;
-import hqx.Hqx_4x;
+import com.valkryst.VHQX.Hqx_2x;
+import com.valkryst.VHQX.Hqx_3x;
+import com.valkryst.VHQX.Hqx_4x;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

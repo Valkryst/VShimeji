@@ -1,9 +1,9 @@
 package com.group_finity.mascot.image;
 
 import com.group_finity.mascot.Main;
-import hqx.Hqx_2x;
-import hqx.Hqx_3x;
-import hqx.Hqx_4x;
+import com.valkryst.VHQX.Hqx_2x;
+import com.valkryst.VHQX.Hqx_3x;
+import com.valkryst.VHQX.Hqx_4x;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

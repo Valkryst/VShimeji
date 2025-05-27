@@ -105,6 +105,13 @@
             <version>76e8799871</version>
         </dependency>
 
+        <!-- Image Scaling -->
+        <dependency>
+            <groupId>com.github.Valkryst</groupId>
+            <artifactId>VHQX</artifactId>
+            <version>2025.5.27</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
