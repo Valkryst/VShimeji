@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
  */
 public class NativeFactoryImpl extends NativeFactory {
 
-    private Environment environment = new X11Environment();
+    private final Environment environment = new X11Environment();
 
     @Override
     public Environment getEnvironment() {

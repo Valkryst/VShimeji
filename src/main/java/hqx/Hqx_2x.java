@@ -66,7 +66,7 @@ public class Hqx_2x extends Hqx {
         int spIdx = 0, dpIdx = 0;
         // Don't shift trA, as it uses shift right instead of a mask for comparisons.
         trY <<= 2 * 8;
-        trU <<= 1 * 8;
+        trU <<= 8;
         final int dpL = Xres * 2;
 
         int prevline, nextline;

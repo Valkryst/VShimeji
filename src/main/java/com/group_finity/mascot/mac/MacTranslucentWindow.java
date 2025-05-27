@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class MacTranslucentWindow implements TranslucentWindow {
-    private TranslucentWindow delegate;
+    private final TranslucentWindow delegate;
     private boolean imageChanged = false;
     private NativeImage oldImage = null;
 

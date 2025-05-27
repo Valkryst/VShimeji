@@ -53,7 +53,7 @@ public class Mascot {
     /**
      * The ID of the last generated {@code Mascot}.
      */
-    private static AtomicInteger lastId = new AtomicInteger();
+    private static final AtomicInteger lastId = new AtomicInteger();
 
     /**
      * The {@code Mascot}'s ID.
@@ -131,7 +131,7 @@ public class Mascot {
     /**
      * Mascot display environment.
      */
-    @Getter private MascotEnvironment environment = new MascotEnvironment(this);
+    @Getter private final MascotEnvironment environment = new MascotEnvironment(this);
 
     @Getter @Setter private String sound = null;
 

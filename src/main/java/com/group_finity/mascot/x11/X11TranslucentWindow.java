@@ -164,7 +164,7 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
     public void setToDock(int value) {
         IntByReference dockAtom = new IntByReference(value);
         x11.XChangeProperty(dpy, win, x11.XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", false),
-                x11.XA_ATOM, 32, x11.PropModeReplace, dockAtom.getPointer(), 1);
+                X11.XA_ATOM, 32, X11.PropModeReplace, dockAtom.getPointer(), 1);
     }
 
 

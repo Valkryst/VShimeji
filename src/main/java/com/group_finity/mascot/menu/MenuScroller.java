@@ -32,8 +32,8 @@ public class MenuScroller
     // private JMenu menu;
     private JPopupMenu menu;
     private Component[] menuItems;
-    private MenuScrollerItem upItem;
-    private MenuScrollerItem downItem;
+    private final MenuScrollerItem upItem;
+    private final MenuScrollerItem downItem;
     private final MenuScrollerPopupMenuListener menuScrollerPopupMenuListener = new MenuScrollerPopupMenuListener();
     private final MenuScrollerMenuKeyListener menuScrollerMenuKeyListener = new MenuScrollerMenuKeyListener();
     /** The number of items in the scrolling portion of the menu. */
@@ -590,7 +590,7 @@ public class MenuScroller
     private class MenuScrollerItem extends JMenuItem
             implements ChangeListener {
 
-        private MenuScrollerTimer timer;
+        private final MenuScrollerTimer timer;
 
         public MenuScrollerItem(MenuScrollerIcon icon, int increment) {
             setIcon(icon);

@@ -41,11 +41,11 @@ public abstract class ActionBase implements Action {
 
     private int startTime;
 
-    @Getter private List<Animation> animations;
+    @Getter private final List<Animation> animations;
 
-    @Getter private VariableMap variables;
+    @Getter private final VariableMap variables;
 
-    @Getter private ResourceBundle schema;
+    @Getter private final ResourceBundle schema;
 
     public ActionBase(ResourceBundle schema, final List<Animation> animations, final VariableMap context) {
         this.schema = schema;

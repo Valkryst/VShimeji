@@ -32,24 +32,24 @@ class MacEnvironment extends Environment {
      * <p>
      * Therefore, in this class, give {@code activeIE} an alias called {@link #frontmostWindow}.
      */
-    private static Area activeIE = new Area();
-    private static Area frontmostWindow = activeIE;
+    private static final Area activeIE = new Area();
+    private static final Area frontmostWindow = activeIE;
 
     private static final int screenWidth =
             (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().getWidth());
     private static final int screenHeight =
             (int) Math.round(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 
-    private static CarbonExtra carbonEx = CarbonExtra.INSTANCE;
+    private static final CarbonExtra carbonEx = CarbonExtra.INSTANCE;
 
     // On Mac, ManagementFactory.getRuntimeMXBean().getName()
     // returns the "PID@machine name" string
-    private static long myPID =
+    private static final long myPID =
             Long.parseLong(ManagementFactory.getRuntimeMXBean().getName().split("@")[0]);
 
     private static long currentPID = myPID;
 
-    private static Set<Long> touchedProcesses = new HashSet<>();
+    private static final Set<Long> touchedProcesses = new HashSet<>();
 
     static final CFStringRef
             kAXPosition = createCFString("AXPosition"),
@@ -71,7 +71,7 @@ class MacEnvironment extends Environment {
 
         // XXX: Is error checking necessary other than here?
         if (carbonEx.AXUIElementCopyAttributeValue(
-                application, kAXFocusedWindow, windowp) == carbonEx.kAXErrorSuccess) {
+                application, kAXFocusedWindow, windowp) == CarbonExtra.kAXErrorSuccess) {
             AXUIElementRef window = new AXUIElementRef();
             window.setPointer(windowp.getValue());
             ret = getRectOfWindow(window);
@@ -100,7 +100,7 @@ class MacEnvironment extends Environment {
 
         carbonEx.AXUIElementCopyAttributeValue(window, kAXPosition, valuep);
         axvalue.setPointer(valuep.getValue());
-        carbonEx.AXValueGetValue(axvalue, carbonEx.kAXValueCGPointType, position.getPointer());
+        carbonEx.AXValueGetValue(axvalue, CarbonExtra.kAXValueCGPointType, position.getPointer());
         position.read();
 
         return position;
@@ -113,7 +113,7 @@ class MacEnvironment extends Environment {
 
         carbonEx.AXUIElementCopyAttributeValue(window, kAXSize, valuep);
         axvalue.setPointer(valuep.getValue());
-        carbonEx.AXValueGetValue(axvalue, carbonEx.kAXValueCGSizeType, size.getPointer());
+        carbonEx.AXValueGetValue(axvalue, CarbonExtra.kAXValueCGSizeType, size.getPointer());
         size.read();
 
         return size;
@@ -126,7 +126,7 @@ class MacEnvironment extends Environment {
         PointerByReference windowp = new PointerByReference();
 
         if (carbonEx.AXUIElementCopyAttributeValue(
-                application, kAXFocusedWindow, windowp) == carbonEx.kAXErrorSuccess) {
+                application, kAXFocusedWindow, windowp) == CarbonExtra.kAXErrorSuccess) {
             AXUIElementRef window = new AXUIElementRef();
             window.setPointer(windowp.getValue());
             moveWindow(window, point.x, point.y);
@@ -186,7 +186,7 @@ class MacEnvironment extends Environment {
         CGPoint position = new CGPoint(x, y);
         position.write();
         AXValueRef axvalue = carbonEx.AXValueCreate(
-                carbonEx.kAXValueCGPointType, position.getPointer());
+                CarbonExtra.kAXValueCGPointType, position.getPointer());
         carbonEx.AXUIElementSetAttributeValue(window, kAXPosition, axvalue);
     }
 
@@ -245,7 +245,7 @@ class MacEnvironment extends Environment {
     private static String getDockOrientation() {
         CFTypeRef orientationRef =
                 carbonEx.CFPreferencesCopyValue(
-                        kOrientation, kDock, carbonEx.kCurrentUser, carbonEx.kAnyHost);
+                        kOrientation, kDock, CarbonExtra.kCurrentUser, CarbonExtra.kAnyHost);
 
         // There are environments where CFPreferencesCopyValue returns null
         if (orientationRef == null) {

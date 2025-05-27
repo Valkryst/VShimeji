@@ -14,10 +14,10 @@ import java.util.Arrays;
  * @author Shimeji-ee Group
  */
 public class Animation {
-    private Variable condition;
+    private final Variable condition;
     private final Pose[] poses;
     @Getter private final Hotspot[] hotspots;
-    @Getter private boolean turn;
+    @Getter private final boolean turn;
 
     public Animation(final Variable condition, final Pose[] poses, final Hotspot[] hotspots, final boolean turn) {
         if (poses.length == 0) {

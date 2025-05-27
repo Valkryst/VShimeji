@@ -33,7 +33,7 @@ public class VariableMap extends AbstractMap<String, Object> implements Bindings
 
             return new Iterator<>() {
 
-                private Iterator<Map.Entry<String, Variable>> rawIterator = getRawMap().entrySet()
+                private final Iterator<Map.Entry<String, Variable>> rawIterator = getRawMap().entrySet()
                         .iterator();
 
                 @Override
