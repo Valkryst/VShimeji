@@ -31,6 +31,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -379,22 +380,9 @@ public class Main {
 
         log.log(Level.INFO, "Creating tray icon");
 
-        // get the tray icon image
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(ICON_FILE.toFile());
-        } catch (IOException e) {
-            log.log(Level.SEVERE, "Failed to create tray icon", e);
-            showError(languageBundle.getString("FailedDisplaySystemTrayErrorMessage") + "\n" + languageBundle.getString("SeeLogForDetails"));
-        } finally {
-            if (image == null) {
-                image = new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
-            }
-        }
-
         try {
             // Create the tray icon
-            final TrayIcon icon = new TrayIcon(image, languageBundle.getString("ShimejiEE"));
+            final TrayIcon icon = new TrayIcon(Main.getIcon(), languageBundle.getString("ShimejiEE"));
             icon.setImageAutoSize(true);
 
             // attach menu
@@ -1274,5 +1262,22 @@ public class Main {
             FlatLightLaf.setup();
         }
         FlatLaf.updateUI();
+    }
+
+    /**
+     * Loads the {@link #ICON_FILE} and returns it as a {@link BufferedImage}.
+     *
+     * @return The loaded {@link BufferedImage} icon, or a blank image if loading fails.
+     */
+    public static BufferedImage getIcon() {
+        try (
+            final var inputStream = new FileInputStream(ICON_FILE.toFile());
+        ) {
+            return ImageIO.read(inputStream);
+        } catch (final IOException e) {
+            log.log(Level.WARNING, "Failed to load icon file.", e);
+        }
+
+        return new BufferedImage(16, 16, BufferedImage.TYPE_INT_RGB);
     }
 }
