@@ -10,7 +10,6 @@ import java.awt.*;
 import java.lang.ref.WeakReference;
 import java.util.*;
 import java.util.List;
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -101,7 +100,6 @@ public class Manager {
      */
     public void stop() {
         if (executorService == null || executorService.isShutdown()) {
-            log.warning("An attempt was made to stop the scheduler, but it is not running.");
             return;
         }
 
