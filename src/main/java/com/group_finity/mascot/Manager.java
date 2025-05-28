@@ -4,6 +4,9 @@ import com.group_finity.mascot.behavior.Behavior;
 import com.group_finity.mascot.config.Configuration;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.java.Log;
 
 import java.awt.*;
@@ -24,8 +27,10 @@ import java.util.logging.Level;
  *
  * @author Yuki Yamada of <a href="http://www.group-finity.com/Shimeji/">Group Finity</a>
  * @author Shimeji-ee Group
+ * @author Valkryst
  */
 @Log
+@NoArgsConstructor
 public class Manager {
     /**
      * The duration of each tick, in milliseconds.
@@ -53,20 +58,10 @@ public class Manager {
      * Whether the program should exit when the last {@link Mascot} is deleted.
      * If you fail to create a tray icon, the process will remain forever unless you close the program when the {@link Mascot} disappears.
      */
-    private boolean exitOnLastRemoved = true;
+    @Getter @Setter private boolean exitOnLastRemoved = true;
 
     /** {@link ScheduledExecutorService} which calls the {@link #tick()} method. */
     private ScheduledExecutorService executorService;
-
-    public Manager() {}
-
-    public void setExitOnLastRemoved(boolean exitOnLastRemoved) {
-        this.exitOnLastRemoved = exitOnLastRemoved;
-    }
-
-    public boolean isExitOnLastRemoved() {
-        return exitOnLastRemoved;
-    }
 
     /**
      * Starts the thread.
@@ -265,7 +260,7 @@ public class Manager {
                 Mascot m = getMascots().get(i);
                 if (m.getImageSet().equals(imageSet) && isFirst) {
                     isFirst = false;
-                } else if (m.getImageSet().equals(imageSet) && !isFirst) {
+                } else if (m.getImageSet().equals(imageSet)) {
                     m.dispose();
                 }
             }
