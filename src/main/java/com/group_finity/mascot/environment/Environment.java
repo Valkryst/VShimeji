@@ -29,7 +29,7 @@ public abstract class Environment {
 
     public abstract void refreshCache();
 
-    public abstract void dispose();
+    public void dispose() {}
 
     protected static Rectangle screenRect = new Rectangle(new Point(0, 0), Toolkit.getDefaultToolkit().getScreenSize());
 

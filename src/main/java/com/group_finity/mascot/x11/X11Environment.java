@@ -564,10 +564,6 @@ class X11Environment extends Environment {
     }
 
     @Override
-    public void dispose() {
-    }
-
-    @Override
     public Area getWorkArea() {
         return workArea;
     }

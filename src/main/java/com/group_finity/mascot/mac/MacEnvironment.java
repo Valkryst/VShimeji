@@ -384,8 +384,4 @@ class MacEnvironment extends Environment {
     @Override
     public void refreshCache() {
     }
-
-    @Override
-    public void dispose() {
-    }
 }

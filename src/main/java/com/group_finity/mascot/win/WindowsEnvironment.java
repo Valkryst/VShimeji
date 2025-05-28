@@ -262,10 +262,6 @@ class WindowsEnvironment extends Environment {
     }
 
     @Override
-    public void dispose() {
-    }
-
-    @Override
     public void moveActiveIE(final Point point) {
         moveIE(findActiveIE(), point, activeIeDpiUnaware);
     }
