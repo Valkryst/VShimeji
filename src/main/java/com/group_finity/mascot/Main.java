@@ -10,7 +10,7 @@ import com.group_finity.mascot.config.Entry;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
 import com.group_finity.mascot.exception.ConfigurationException;
-import com.group_finity.mascot.image.ImagePairs;
+import com.group_finity.mascot.image.ImagePairMap;
 import com.group_finity.mascot.imagesetchooser.ImageSetChooser;
 import com.group_finity.mascot.sound.Sounds;
 import com.jthemedetecor.OsThemeDetector;
@@ -608,7 +608,7 @@ public class Main {
                             getManager().disposeAll();
 
                             // Wipe all loaded data
-                            ImagePairs.clear();
+                            ImagePairMap.getInstance().clear();
                             configurations.clear();
 
                             // Load settings
@@ -1179,7 +1179,7 @@ public class Main {
                     imageSets.remove(imageSet);
                     getManager().remainNone(imageSet);
                     configurations.remove(imageSet);
-                    ImagePairs.removeAll(imageSet);
+                    ImagePairMap.getInstance().removeAll(imageSet);
                     removeLoadedImageSet(set, setsToIgnore);
                 }
             }
@@ -1189,7 +1189,7 @@ public class Main {
             imageSets.remove(imageSet);
             getManager().remainNone(imageSet);
             configurations.remove(imageSet);
-            ImagePairs.removeAll(imageSet);
+            ImagePairMap.getInstance().removeAll(imageSet);
         }
     }
 

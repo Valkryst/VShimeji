@@ -2,7 +2,7 @@ package com.group_finity.mascot.animation;
 
 import com.group_finity.mascot.Mascot;
 import com.group_finity.mascot.image.ImagePair;
-import com.group_finity.mascot.image.ImagePairs;
+import com.group_finity.mascot.image.ImagePairMap;
 import lombok.Getter;
 
 import java.awt.*;
@@ -60,7 +60,7 @@ public class Pose {
     public void next(final Mascot mascot) {
         mascot.setAnchor(new Point(mascot.getAnchor().x + (mascot.isLookRight() ? -getDx() : getDx()),
                 mascot.getAnchor().y + getDy()));
-        mascot.setImage(ImagePairs.getImage(getImageName(), mascot.isLookRight()));
+        mascot.setImage(ImagePairMap.getInstance().getImage(getImageName(), mascot.isLookRight()));
         mascot.setSound(getSoundName());
     }
 
@@ -69,7 +69,7 @@ public class Pose {
     }
 
     public ImagePair getImage() {
-        return ImagePairs.getImagePair(getImageName());
+        return ImagePairMap.getInstance().get(getImageName());
     }
 
     public String getSoundName() {

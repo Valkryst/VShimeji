@@ -32,7 +32,7 @@ public class ImagePairLoader {
      */
     public static void load(final String name, final String rightName, final Point center, final double scaling, final ImageScaler imageScaler, final double opacity) throws IOException {
         String key = name + (rightName == null ? "" : rightName);
-        if (ImagePairs.contains(key)) {
+        if (ImagePairMap.getInstance().containsKey(key)) {
             return;
         }
 
@@ -46,7 +46,8 @@ public class ImagePairLoader {
 
         ImagePair ip = new ImagePair(new MascotImage(leftImage, new Point((int) Math.round(center.x * scaling), (int) Math.round(center.y * scaling))),
                 new MascotImage(rightImage, new Point(rightImage.getWidth() - (int) Math.round(center.x * scaling), (int) Math.round(center.y * scaling))));
-        ImagePairs.load(key, ip);
+
+        ImagePairMap.getInstance().put(key, ip);
     }
 
     /**
