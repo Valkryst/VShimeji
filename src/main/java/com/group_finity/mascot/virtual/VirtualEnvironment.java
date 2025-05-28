@@ -25,11 +25,6 @@ class VirtualEnvironment extends Environment {
     private final Area activeIE = new Area();
 
     @Override
-    public Area getWorkArea() {
-        return getScreen();
-    }
-
-    @Override
     public Area getActiveIE() {
         return activeIE;
     }

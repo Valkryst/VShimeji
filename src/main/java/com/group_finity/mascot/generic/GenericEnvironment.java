@@ -35,11 +35,6 @@ class GenericEnvironment extends Environment {
     }
 
     @Override
-    public Area getWorkArea() {
-        return getScreen();
-    }
-
-    @Override
     public Area getActiveIE() {
         return activeIE;
     }

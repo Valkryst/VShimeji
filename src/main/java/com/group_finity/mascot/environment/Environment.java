@@ -13,7 +13,9 @@ import java.util.Map;
  */
 @Getter
 public abstract class Environment {
-    protected abstract Area getWorkArea();
+    protected Area getWorkArea() {
+        return this.getScreen();
+    }
 
     public abstract Area getActiveIE();
 
