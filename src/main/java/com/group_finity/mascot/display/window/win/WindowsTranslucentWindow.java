@@ -1,6 +1,5 @@
 package com.group_finity.mascot.display.window.win;
 
-import com.group_finity.mascot.Mascot;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
 
@@ -25,31 +24,6 @@ class WindowsTranslucentWindow extends JWindow implements TranslucentWindow {
         super();
 
         setBackground(new Color(0, 0, 0, 0));
-
-        if (Mascot.DRAW_DEBUG) {
-            JPanel panel = new JPanel() {
-                @Override
-                protected void paintComponent(final Graphics g) {
-                    super.paintComponent(g);
-                    if (getImage() != null) {
-                        g.drawImage(getImage().getManagedImage(), 0, 0, null);
-                    }
-                }
-            };
-            panel.setOpaque(false);
-            setContentPane(panel);
-
-            setLayout(new BorderLayout());
-        }
-    }
-
-    @Override
-    protected void addImpl(final Component comp, final Object constraints, final int index) {
-        super.addImpl(comp, constraints, index);
-        if (Mascot.DRAW_DEBUG && comp instanceof JComponent) {
-            final JComponent jcomp = (JComponent) comp;
-            jcomp.setOpaque(false);
-        }
     }
 
     @Override
@@ -72,13 +46,9 @@ class WindowsTranslucentWindow extends JWindow implements TranslucentWindow {
         }
         super.paint(g);
 
-        if (!Mascot.DRAW_DEBUG && getImage() != null) {
-            g.drawImage(getImage().getManagedImage(), 0, 0, null);
+        if (image != null) {
+            g.drawImage(image.getManagedImage(), 0, 0, null);
         }
-    }
-
-    private WindowsNativeImage getImage() {
-        return image;
     }
 
     @Override
@@ -88,9 +58,6 @@ class WindowsTranslucentWindow extends JWindow implements TranslucentWindow {
 
     @Override
     public void updateImage() {
-        if (Mascot.DRAW_DEBUG) {
-            validate();
-        }
         repaint();
     }
 }
