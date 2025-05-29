@@ -52,10 +52,6 @@ class VirtualTranslucentPanel extends JPanel implements TranslucentWindow {
     }
 
     @Override
-    public void setAlwaysOnTop(boolean onTop) {
-    }
-
-    @Override
     public void setImage(NativeImage image) {
         this.image = (VirtualNativeImage) image;
     }

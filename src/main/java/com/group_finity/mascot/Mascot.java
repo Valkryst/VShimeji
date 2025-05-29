@@ -149,9 +149,6 @@ public class Mascot {
 
         log.log(Level.INFO, "Created mascot \"{0}\" with image set \"{1}\"", new Object[]{this, imageSet});
 
-        // Always show on top
-        window.setAlwaysOnTop(true);
-
         // Register the mouse handler
         window.asComponent().addMouseListener(new MouseAdapter() {
             @Override

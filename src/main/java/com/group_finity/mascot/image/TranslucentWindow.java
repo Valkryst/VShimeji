@@ -14,6 +14,4 @@ public interface TranslucentWindow {
     void updateImage();
 
     void dispose();
-
-    void setAlwaysOnTop(boolean onTop);
 }
