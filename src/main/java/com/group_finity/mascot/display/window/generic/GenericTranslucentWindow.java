@@ -15,25 +15,22 @@ import java.awt.*;
  */
 @Getter
 public class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
-    /**
-     * Image to display.
-     */
+    /** The {@link GenericNativeImage} to display. */
     private GenericNativeImage image;
 
     public GenericTranslucentWindow() {
         super(WindowUtils.getAlphaCompatibleGraphicsConfiguration());
 
-        JPanel panel = new JPanel() {
+        this.setContentPane(new JPanel() {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                if (getImage() != null) {
-                    g.drawImage(getImage().getManagedImage(), 0, 0, null);
+
+                if (image != null) {
+                    g.drawImage(image.getManagedImage(), 0, 0, null);
                 }
             }
-        };
-
-        setContentPane(panel);
+        });
     }
 
     @Override
@@ -53,9 +50,9 @@ public class GenericTranslucentWindow extends JWindow implements TranslucentWind
     @Override
     protected void addImpl(final Component comp, final Object constraints, final int index) {
         super.addImpl(comp, constraints, index);
+
         if (comp instanceof JComponent) {
-            final JComponent jcomp = (JComponent) comp;
-            jcomp.setOpaque(false);
+            ((JComponent) comp).setOpaque(false);
         }
     }
 
@@ -71,7 +68,16 @@ public class GenericTranslucentWindow extends JWindow implements TranslucentWind
 
     @Override
     public void setImage(final NativeImage image) {
+        if (!(image instanceof GenericNativeImage)) {
+            throw new IllegalArgumentException("Image must be an instance of GenericNativeImage");
+        }
+
+        if (this.image != null && this.image.equals(image)) {
+            return;
+        }
+
         this.image = (GenericNativeImage) image;
+        this.repaint();
     }
 
     @Override
