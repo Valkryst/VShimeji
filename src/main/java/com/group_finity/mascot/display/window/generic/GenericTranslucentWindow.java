@@ -14,7 +14,7 @@ import java.awt.*;
  * @author Shimeji-ee Group
  */
 @Getter
-class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
+public class GenericTranslucentWindow extends JWindow implements TranslucentWindow {
     /**
      * Image to display.
      */
