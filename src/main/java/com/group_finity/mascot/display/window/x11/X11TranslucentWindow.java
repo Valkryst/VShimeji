@@ -21,8 +21,6 @@ import java.awt.image.Raster;
 /**
  * Image window with alpha value.
  * {@link X11NativeImage} set with {@link #setImage(NativeImage)} can be displayed on the desktop.
- * <p>
- * You can also specify the alpha when displaying with {@link #setAlpha(float)}.
  *
  * @author asdfman
  */
@@ -38,7 +36,6 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
     private static final X11 x11 = X11.INSTANCE;
     private final X11.Display dpy = x11.XOpenDisplay(null);
     private X11.Window win = null;
-    private float alpha = 1.0f;
     private final JWindow alphaWindow = this;
 
     public X11TranslucentWindow() {
@@ -150,15 +147,6 @@ class X11TranslucentWindow extends JWindow implements TranslucentWindow {
             final JComponent jcomp = (JComponent) comp;
             jcomp.setOpaque(false);
         }
-    }
-
-    public float getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(final float alpha) {
-        this.alpha = alpha;
-        WindowUtils.setWindowAlpha(this, this.alpha);
     }
 
     public void setToDock(int value) {
