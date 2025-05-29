@@ -2,7 +2,6 @@ package com.group_finity.mascot.display.window.mac;
 
 import com.group_finity.mascot.display.window.generic.GenericWindowFactory;
 import com.group_finity.mascot.environment.Environment;
-import com.group_finity.mascot.image.TranslucentWindow;
 
 /**
  * @author nonowarn
@@ -14,10 +13,5 @@ public class MacWindowFactory extends GenericWindowFactory {
     @Override
     public Environment getEnvironment() {
         return environment;
-    }
-
-    @Override
-    public TranslucentWindow newTransparentWindow() {
-        return new MacTranslucentWindow();
     }
 }
