@@ -5,9 +5,6 @@ package com.group_finity.mascot.exception;
  * @author Shimeji-ee Group
  */
 public class ConfigurationException extends Exception {
-
-    private static final long serialVersionUID = 1L;
-
     public ConfigurationException(final String message) {
         super(message);
     }
