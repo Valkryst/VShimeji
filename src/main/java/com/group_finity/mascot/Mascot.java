@@ -3,6 +3,7 @@ package com.group_finity.mascot;
 import com.group_finity.mascot.animation.Animation;
 import com.group_finity.mascot.behavior.Behavior;
 import com.group_finity.mascot.config.Configuration;
+import com.group_finity.mascot.display.window.NativeFactory;
 import com.group_finity.mascot.environment.MascotEnvironment;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;

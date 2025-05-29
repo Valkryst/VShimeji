@@ -1,6 +1,6 @@
 package com.group_finity.mascot.image;
 
-import com.group_finity.mascot.NativeFactory;
+import com.group_finity.mascot.display.window.NativeFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

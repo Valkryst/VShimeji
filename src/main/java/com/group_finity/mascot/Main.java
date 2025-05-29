@@ -7,6 +7,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.group_finity.mascot.config.Configuration;
 import com.group_finity.mascot.config.Entry;
+import com.group_finity.mascot.display.window.NativeFactory;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
 import com.group_finity.mascot.exception.ConfigurationException;
