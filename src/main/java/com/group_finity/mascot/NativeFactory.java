@@ -4,6 +4,7 @@ import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
 import com.sun.jna.Platform;
+import lombok.Getter;
 
 import java.awt.image.BufferedImage;
 
@@ -14,19 +15,11 @@ import java.awt.image.BufferedImage;
  * @author Yuki Yamada
  */
 public abstract class NativeFactory {
-    private static NativeFactory instance;
+    /** An instance of the subclass, according to the execution environment. */
+    @Getter private static NativeFactory instance;
 
     static {
         resetInstance();
-    }
-
-    /**
-     * Obtains an instance of the subclass according to the execution environment.
-     *
-     * @return the environment-specific subclass
-     */
-    public static NativeFactory getInstance() {
-        return instance;
     }
 
     /**
