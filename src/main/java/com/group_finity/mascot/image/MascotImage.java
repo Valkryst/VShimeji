@@ -1,6 +1,6 @@
 package com.group_finity.mascot.image;
 
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,6 +21,6 @@ public class MascotImage {
     private final Dimension size;
 
     public MascotImage(final BufferedImage image, final Point center) {
-        this(NativeFactory.getInstance().newNativeImage(image), center, new Dimension(image.getWidth(), image.getHeight()));
+        this(WindowFactory.getInstance().newNativeImage(image), center, new Dimension(image.getWidth(), image.getHeight()));
     }
 }

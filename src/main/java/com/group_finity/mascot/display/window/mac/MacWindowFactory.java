@@ -1,6 +1,7 @@
 package com.group_finity.mascot.display.window.mac;
 
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
+import com.group_finity.mascot.display.window.generic.GenericWindowFactory;
 import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
@@ -10,8 +11,8 @@ import java.awt.image.BufferedImage;
 /**
  * @author nonowarn
  */
-public class NativeFactoryImpl extends NativeFactory {
-    private final NativeFactory delegate = new com.group_finity.mascot.display.window.generic.NativeFactoryImpl();
+public class MacWindowFactory extends WindowFactory {
+    private final WindowFactory delegate = new GenericWindowFactory();
     private final Environment environment = new MacEnvironment();
 
     @Override

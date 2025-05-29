@@ -1,6 +1,6 @@
 package com.group_finity.mascot.display.window.mac;
 
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
 
@@ -12,7 +12,7 @@ class MacTranslucentWindow implements TranslucentWindow {
     private boolean imageChanged = false;
     private NativeImage oldImage = null;
 
-    MacTranslucentWindow(NativeFactory factory) {
+    MacTranslucentWindow(WindowFactory factory) {
         delegate = factory.newTransparentWindow();
         JRootPane rootPane = ((JWindow) delegate.asComponent()).getRootPane();
 

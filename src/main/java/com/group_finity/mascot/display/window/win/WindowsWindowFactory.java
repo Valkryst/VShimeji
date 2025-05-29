@@ -1,11 +1,6 @@
-/*
- * Created by asdfman and Ygarr
- * https://github.com/asdfman/linux-shimeji
- * https://github.com/Ygarr/linux-shimeji
- */
-package com.group_finity.mascot.display.window.x11;
+package com.group_finity.mascot.display.window.win;
 
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
@@ -13,11 +8,11 @@ import com.group_finity.mascot.image.TranslucentWindow;
 import java.awt.image.BufferedImage;
 
 /**
- * @author asdfman
+ * @author Yuki Yamada of <a href="http://www.group-finity.com/Shimeji/">Group Finity</a>
+ * @author Shimeji-ee Group
  */
-public class NativeFactoryImpl extends NativeFactory {
-
-    private final Environment environment = new X11Environment();
+public class WindowsWindowFactory extends WindowFactory {
+    private final Environment environment = new WindowsEnvironment();
 
     @Override
     public Environment getEnvironment() {
@@ -26,12 +21,11 @@ public class NativeFactoryImpl extends NativeFactory {
 
     @Override
     public NativeImage newNativeImage(final BufferedImage src) {
-        return new X11NativeImage(src);
+        return new WindowsNativeImage(src);
     }
 
     @Override
     public TranslucentWindow newTransparentWindow() {
-        return new X11TranslucentWindow();
+        return new WindowsTranslucentWindow();
     }
-
 }

@@ -3,7 +3,7 @@ package com.group_finity.mascot;
 import com.group_finity.mascot.animation.Animation;
 import com.group_finity.mascot.behavior.Behavior;
 import com.group_finity.mascot.config.Configuration;
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.environment.MascotEnvironment;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
@@ -67,7 +67,7 @@ public class Mascot {
     /**
      * The window that displays the {@code Mascot}.
      */
-    private final TranslucentWindow window = NativeFactory.getInstance().newTransparentWindow();
+    private final TranslucentWindow window = WindowFactory.getInstance().newTransparentWindow();
 
     /**
      * The {@link Manager} that manages this {@code Mascot}.
@@ -335,7 +335,7 @@ public class Mascot {
 
         // "Restore IE!" menu item
         final JMenuItem restoreMenu = new JMenuItem(languageBundle.getString("RestoreWindows"));
-        restoreMenu.addActionListener(event -> NativeFactory.getInstance().getEnvironment().restoreIE());
+        restoreMenu.addActionListener(event -> WindowFactory.getInstance().getEnvironment().restoreIE());
 
         // Debug menu item
         final JMenuItem debugMenu = new JMenuItem(languageBundle.getString("RevealStatistics"));

@@ -1,6 +1,10 @@
 package com.group_finity.mascot.display.window;
 
 import com.group_finity.mascot.Main;
+import com.group_finity.mascot.display.window.mac.MacWindowFactory;
+import com.group_finity.mascot.display.window.virtual.VirtualWindowFactory;
+import com.group_finity.mascot.display.window.win.WindowsWindowFactory;
+import com.group_finity.mascot.display.window.x11.X11WindowFactory;
 import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
@@ -15,9 +19,9 @@ import java.awt.image.BufferedImage;
  *
  * @author Yuki Yamada
  */
-public abstract class NativeFactory {
+public abstract class WindowFactory {
     /** An instance of the subclass, according to the execution environment. */
-    @Getter private static NativeFactory instance;
+    @Getter private static WindowFactory instance;
 
     static {
         resetInstance();
@@ -31,15 +35,15 @@ public abstract class NativeFactory {
 
         if (environment.equals("generic")) {
             if (Platform.isWindows()) {
-                instance = new com.group_finity.mascot.display.window.win.NativeFactoryImpl();
+                instance = new WindowsWindowFactory();
             } else if (Platform.isMac()) {
-                instance = new com.group_finity.mascot.display.window.mac.NativeFactoryImpl();
+                instance = new MacWindowFactory();
             } else if (/* Platform.isLinux() */ Platform.isX11()) {
                 // Because Linux uses X11, this functions as the Linux support.
-                instance = new com.group_finity.mascot.display.window.x11.NativeFactoryImpl();
+                instance = new X11WindowFactory();
             }
         } else if (environment.equals("virtual")) {
-            instance = new com.group_finity.mascot.display.window.virtual.NativeFactoryImpl();
+            instance = new VirtualWindowFactory();
         }
     }
 

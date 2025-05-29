@@ -7,7 +7,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.group_finity.mascot.config.Configuration;
 import com.group_finity.mascot.config.Entry;
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
 import com.group_finity.mascot.exception.ConfigurationException;
@@ -472,7 +472,7 @@ public class Main {
 
                     JButton btnRestoreWindows = new JButton(languageBundle.getString("RestoreWindows"));
                     btnRestoreWindows.addActionListener(event14 -> {
-                        NativeFactory.getInstance().getEnvironment().restoreIE();
+                        WindowFactory.getInstance().getEnvironment().restoreIE();
                         form.dispose();
                     });
 
@@ -599,8 +599,8 @@ public class Main {
                         dialog.display();
 
                         if (dialog.getEnvironmentReloadRequired()) {
-                            NativeFactory.getInstance().getEnvironment().dispose();
-                            NativeFactory.resetInstance();
+                            WindowFactory.getInstance().getEnvironment().dispose();
+                            WindowFactory.resetInstance();
                         }
                         if (dialog.getEnvironmentReloadRequired() || dialog.getImageReloadRequired()) {
                             // need to reload the shimeji as the images have rescaled
@@ -625,7 +625,7 @@ public class Main {
                             getManager().setExitOnLastRemoved(isExit);
                         }
                         if (dialog.getInteractiveWindowReloadRequired()) {
-                            NativeFactory.getInstance().getEnvironment().refreshCache();
+                            WindowFactory.getInstance().getEnvironment().refreshCache();
                         }
                     });
 

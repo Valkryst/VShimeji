@@ -2,7 +2,7 @@ package com.group_finity.mascot;
 
 import com.group_finity.mascot.behavior.Behavior;
 import com.group_finity.mascot.config.Configuration;
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.exception.BehaviorInstantiationException;
 import com.group_finity.mascot.exception.CantBeAliveException;
 import lombok.Getter;
@@ -105,7 +105,7 @@ public class Manager {
      */
     private void tick() {
         // Update the environmental information first
-        NativeFactory.getInstance().getEnvironment().tick();
+        WindowFactory.getInstance().getEnvironment().tick();
 
         // Advance the mascots' time
         for (final Mascot mascot : mascots) {

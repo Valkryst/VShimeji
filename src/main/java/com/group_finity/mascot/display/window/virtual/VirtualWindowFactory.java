@@ -1,6 +1,6 @@
 package com.group_finity.mascot.display.window.virtual;
 
-import com.group_finity.mascot.display.window.NativeFactory;
+import com.group_finity.mascot.display.window.WindowFactory;
 import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
  * @author Kilkakon
  * @since 1.0.20
  */
-public class NativeFactoryImpl extends NativeFactory {
+public class VirtualWindowFactory extends WindowFactory {
     private final VirtualEnvironment environment = new VirtualEnvironment();
 
     @Override
