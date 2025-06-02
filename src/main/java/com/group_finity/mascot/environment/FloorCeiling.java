@@ -1,7 +1,6 @@
 package com.group_finity.mascot.environment;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import java.awt.*;
 
@@ -10,49 +9,48 @@ import java.awt.*;
  * @author Shimeji-ee Group
  */
 @AllArgsConstructor
-@Getter
 public class FloorCeiling implements Border {
     private Area area;
 
-    private boolean bottom;
+    private boolean isBottom;
 
     public int getY() {
-        return isBottom() ? getArea().getBottom() : getArea().getTop();
+        return isBottom ? area.getBottom() : area.getTop();
     }
 
     public int getLeft() {
-        return getArea().getLeft();
+        return area.getLeft();
     }
 
     public int getRight() {
-        return getArea().getRight();
+        return area.getRight();
     }
 
     public int getDY() {
-        return isBottom() ? getArea().getDbottom() : getArea().getDtop();
+        return isBottom ? area.getDbottom() : area.getDtop();
     }
 
     public int getDLeft() {
-        return getArea().getDleft();
+        return area.getDleft();
     }
 
     public int getDRight() {
-        return getArea().getDright();
+        return area.getDright();
     }
 
     public int getWidth() {
-        return getArea().getWidth();
+        return area.getWidth();
     }
 
     @Override
     public boolean isOn(final Point location) {
-        return getArea().isVisible() && getY() == location.y && getLeft() <= location.x
+        return area.isVisible() && getY() == location.y && getLeft() <= location.x
                 && location.x <= getRight();
     }
 
     @Override
     public Point move(final Point location) {
-        if (!getArea().isVisible()) {
+        if (!area.isVisible()) {
             return location;
         }
 
