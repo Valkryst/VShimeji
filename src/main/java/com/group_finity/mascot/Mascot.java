@@ -404,7 +404,7 @@ public class Mascot {
         }
     }
 
-    public void apply() {
+    public void render() {
         if (!this.animating) {
             return;
         }

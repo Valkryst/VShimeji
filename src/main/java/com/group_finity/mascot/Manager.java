@@ -109,7 +109,7 @@ public class Manager {
 
         for (final Mascot mascot : mascots) {
             mascot.tick();
-            mascot.apply();
+            mascot.render();
         }
 
         if (isExitOnLastRemoved() && mascots.isEmpty()) {
