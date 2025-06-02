@@ -62,7 +62,7 @@ public class Manager {
         }
 
         executorService = Executors.newSingleThreadScheduledExecutor();
-        executorService.scheduleAtFixedRate(() -> {
+        executorService.scheduleWithFixedDelay(() -> {
             try {
                 final long startTime = System.currentTimeMillis();
                 this.tick();
