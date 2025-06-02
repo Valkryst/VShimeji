@@ -115,7 +115,7 @@ public class ImagePairLoader {
             }
 
             // if hqx is still on then apply the changes
-            if (imageScaler == ImageScaler.HQX) {
+            if (imageScaler == ImageScaler.HQX && effectiveScaling > 1) {
                 workingImage = new VHQX().scale(source, (int) effectiveScaling);
             }
         }
