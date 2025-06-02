@@ -14,45 +14,45 @@ import java.awt.*;
 public class Wall implements Border {
     private Area area;
 
-    private boolean right;
+    private boolean isRight;
 
     public int getX() {
-        return isRight() ? getArea().getRight() : getArea().getLeft();
+        return isRight ? area.getRight() : area.getLeft();
     }
 
     public int getTop() {
-        return getArea().getTop();
+        return area.getTop();
     }
 
     public int getBottom() {
-        return getArea().getBottom();
+        return area.getBottom();
     }
 
     public int getDX() {
-        return isRight() ? getArea().getDright() : getArea().getDleft();
+        return isRight ? area.getDright() : area.getDleft();
     }
 
     public int getDTop() {
-        return getArea().getDtop();
+        return area.getDtop();
     }
 
     public int getDBottom() {
-        return getArea().getDbottom();
+        return area.getDbottom();
     }
 
     public int getHeight() {
-        return getArea().getHeight();
+        return area.getHeight();
     }
 
     @Override
     public boolean isOn(final Point location) {
-        return getArea().isVisible() && getX() == location.x && getTop() <= location.y
+        return area.isVisible() && getX() == location.x && getTop() <= location.y
                 && location.y <= getBottom();
     }
 
     @Override
     public Point move(final Point location) {
-        if (!getArea().isVisible()) {
+        if (!area.isVisible()) {
             return location;
         }
 
