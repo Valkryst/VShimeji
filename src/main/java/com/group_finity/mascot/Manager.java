@@ -107,13 +107,8 @@ public class Manager {
         // Update the environmental information first
         WindowFactory.getInstance().getEnvironment().tick();
 
-        // Advance the mascots' time
         for (final Mascot mascot : mascots) {
             mascot.tick();
-        }
-
-        // Advance the mascots' images and positions
-        for (final Mascot mascot : mascots) {
             mascot.apply();
         }
 
