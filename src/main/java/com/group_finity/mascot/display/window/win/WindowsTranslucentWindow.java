@@ -23,6 +23,7 @@ class WindowsTranslucentWindow extends JWindow implements TranslucentWindow {
     public WindowsTranslucentWindow() {
         super();
 
+        this.setAlwaysOnTop(true);
         setBackground(new Color(0, 0, 0, 0));
     }
 

@@ -21,6 +21,7 @@ public class GenericTranslucentWindow extends JWindow implements TranslucentWind
     public GenericTranslucentWindow() {
         super(WindowUtils.getAlphaCompatibleGraphicsConfiguration());
 
+        this.setAlwaysOnTop(true);
         this.setContentPane(new JPanel() {
             @Override
             protected void paintComponent(final Graphics g) {
