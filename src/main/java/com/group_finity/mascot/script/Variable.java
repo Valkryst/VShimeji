@@ -29,9 +29,9 @@ public abstract class Variable {
     }
 
     private static Object parseConstant(final String source) {
-        if (source.equals("true")) {
+        if (source.equalsIgnoreCase("true")) {
             return Boolean.TRUE;
-        } else if (source.equals("false")) {
+        } else if (source.equalsIgnoreCase("false")) {
             return Boolean.FALSE;
         } else {
             try {
