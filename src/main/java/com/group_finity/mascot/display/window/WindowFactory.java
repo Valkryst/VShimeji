@@ -8,8 +8,10 @@ import com.group_finity.mascot.display.window.x11.X11WindowFactory;
 import com.group_finity.mascot.environment.Environment;
 import com.group_finity.mascot.image.NativeImage;
 import com.group_finity.mascot.image.TranslucentWindow;
+import com.sun.jna.NativeLibrary;
 import com.sun.jna.Platform;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.awt.image.BufferedImage;
 
@@ -19,6 +21,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Yuki Yamada
  */
+@Log
 public abstract class WindowFactory {
     /** An instance of the subclass, according to the execution environment. */
     @Getter private static WindowFactory instance;
@@ -33,17 +36,38 @@ public abstract class WindowFactory {
     public static void resetInstance() {
         String environment = Main.getInstance().getProperties().getProperty("Environment", "generic");
 
+        System.out.println(WindowFactory.isX11Available());
         if (environment.equals("generic")) {
             if (Platform.isWindows()) {
                 instance = new WindowsWindowFactory();
             } else if (Platform.isMac()) {
                 instance = new MacWindowFactory();
-            } else if (/* Platform.isLinux() */ Platform.isX11()) {
-                // Because Linux uses X11, this functions as the Linux support.
+            } else if (WindowFactory.isX11Available()) {
                 instance = new X11WindowFactory();
+            } else {
+                log.warning("The detected operating system is not Mac or Windows, and X11 is not available. Defaulting to a virtual window. Please install X11, if possible, and relaunch the application.");
+                instance = new VirtualWindowFactory();
             }
         } else if (environment.equals("virtual")) {
             instance = new VirtualWindowFactory();
+        }
+    }
+
+    /**
+     * Determines whether X11 is available.
+     *
+     * @return Whether X11 is available
+     */
+    private static boolean isX11Available() {
+        if (!Platform.isX11()) {
+            return false;
+        }
+
+        try {
+            NativeLibrary.getInstance("X11");
+            return true;
+        } catch (final Exception | UnsatisfiedLinkError e) {
+            return false;
         }
     }
 
